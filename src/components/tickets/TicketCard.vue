@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRefs, computed } from 'vue';
+import { defineProps, toRefs, computed, DeepReadonly } from 'vue';
 import { Ticket } from '@/interfaces/Ticket';
 import AppSheet from '@/components/ui/AppSheet.vue';
 import useComapanies from '@/composables/useCompanies';
@@ -42,7 +42,7 @@ import vFormatNumber from '@/directives/vFormatNumber';
 const MS_IN_HOUR = 3600000;
 
 interface TicketCardProps {
-  ticketData: Ticket;
+  ticketData: DeepReadonly<Ticket>;
 }
 const props = defineProps<TicketCardProps>();
 const { ticketData } = toRefs(props);

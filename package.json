@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "@fontsource/open-sans": "^4.5.10",
+    "@mdi/font": "^7.0.96",
+    "axios": "^0.27.2",
     "basscss-sass": "^4.0.0",
     "core-js": "^3.6.5",
+    "date-fns": "^2.29.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-datepicker": "^0.3.4",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

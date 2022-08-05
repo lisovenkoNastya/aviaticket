@@ -1,10 +1,3 @@
-import { FilterValue } from '@/interfaces/FilterParams';
-
-const FILTER_VALUE_DEFAULT: FilterValue = {
-  stopNumber: [],
-  company: 'all',
-};
-
 const FILTER_STOP_NUMBERS_OPTIONS = [
   {
     text: 'Без пересадок',
@@ -24,4 +17,4 @@ const FILTER_STOP_NUMBERS_OPTIONS = [
   },
 ];
 
-export { FILTER_VALUE_DEFAULT, FILTER_STOP_NUMBERS_OPTIONS };
+export { FILTER_STOP_NUMBERS_OPTIONS };

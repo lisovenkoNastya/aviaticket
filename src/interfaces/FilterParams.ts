@@ -1,16 +1,8 @@
-export interface ControlOption {
-  text: string;
-  value: string | number;
-}
+import { ControlOption } from './ControlOption';
 
 export interface FilterParam {
   id: string;
-  type?: 'checkbox' | 'radio';
-  title?: string;
-  options?: ControlOption[];
-}
-
-export interface FilterValue {
-  stopNumber?: number | number[];
-  company?: string;
+  name: string;
+  title: string;
+  options: ControlOption[];
 }

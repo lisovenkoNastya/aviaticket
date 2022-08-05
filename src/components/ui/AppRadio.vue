@@ -21,7 +21,7 @@ interface AppRadioProps {
   name: string;
   label: string;
   value: number | string;
-  modelValue: any;
+  modelValue: number | string;
 }
 const props = defineProps<AppRadioProps>();
 const { id, name, label, value, modelValue } = toRefs(props);

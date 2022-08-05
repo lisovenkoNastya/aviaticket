@@ -17,15 +17,18 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRefs, defineEmits, computed } from 'vue';
+import { defineProps, toRefs, defineEmits, computed, DeepReadonly } from 'vue';
 
 interface CheckboxProps {
   id: string;
   name: string;
   label: string;
   value?: number | string;
-  // modelValue: boolean | Array<number | string> | undefined;
-  modelValue: any;
+  modelValue:
+    | boolean
+    | DeepReadonly<boolean>
+    | Array<number | string>
+    | DeepReadonly<Array<number | string>>;
 }
 const props = defineProps<CheckboxProps>();
 const { id, name, label, value, modelValue } = toRefs(props);
@@ -35,7 +38,7 @@ const emit = defineEmits(['update:modelValue']);
 const isChecked = computed(() =>
   Array.isArray(modelValue.value)
     ? modelValue.value.map((x) => String(x)).includes(String(value?.value))
-    : modelValue.value,
+    : !!modelValue.value,
 );
 
 function updateValue(event: Event) {

@@ -1,10 +1,6 @@
 <template>
   <div class="ticket-filter">
-    <TicketFilterCard
-      class="mb2 shadow-3"
-      :title="stopNumberParams.title"
-      :id="stopNumberParams.id"
-    >
+    <TicketFilterCard class="mb2 shadow-3" :title="stopNumberParams.title">
       <AppList class="mxn2">
         <AppListItem
           v-for="(option, index) in stopNumberParams.options"
@@ -22,11 +18,7 @@
         </AppListItem>
       </AppList>
     </TicketFilterCard>
-    <TicketFilterCard
-      class="mb2 shadow-3"
-      :title="companyParams.title"
-      :id="companyParams.id"
-    >
+    <TicketFilterCard class="mb2 shadow-3" :title="companyParams.title">
       <AppList class="mxn2">
         <AppListItem
           v-for="(option, index) in companyParams.options"

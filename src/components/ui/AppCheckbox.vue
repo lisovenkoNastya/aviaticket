@@ -1,16 +1,6 @@
 <template>
-  <label
-    :for="id"
-    :class="['app-checkbox', { 'app-checkbox--checked': isChecked }]"
-  >
-    <input
-      type="checkbox"
-      :id="id"
-      :name="name"
-      :value="value"
-      :checked="isChecked"
-      @change="updateValue"
-    />
+  <label :for="id" :class="['app-checkbox', { 'app-checkbox--checked': isChecked }]">
+    <input type="checkbox" :id="id" :name="name" :value="value" :checked="isChecked" @change="updateValue" />
     <span class="app-checkbox__control"></span>
     <span class="app-checkbox__label">{{ label }}</span>
   </label>
@@ -24,18 +14,16 @@ interface CheckboxProps {
   name: string;
   label: string;
   value?: number | string;
-  // modelValue: boolean | Array<number | string> | undefined;
   modelValue: any;
 }
 const props = defineProps<CheckboxProps>();
 const { id, name, label, value, modelValue } = toRefs(props);
+const strValue = computed(() => String(value?.value));
 
 const emit = defineEmits(['update:modelValue']);
 
 const isChecked = computed(() =>
-  Array.isArray(modelValue.value)
-    ? modelValue.value.map((x) => String(x)).includes(String(value?.value))
-    : modelValue.value,
+  Array.isArray(modelValue.value) ? modelValue.value.some((x) => String(x) === strValue.value) : modelValue.value,
 );
 
 function updateValue(event: Event) {
@@ -46,7 +34,7 @@ function updateValue(event: Event) {
   if (Array.isArray(modelValue.value)) {
     newModelValue = isInputChecked
       ? [...modelValue.value, value?.value]
-      : [...modelValue.value].filter((x) => String(x) !== String(value?.value));
+      : [...modelValue.value].filter((x) => String(x) !== strValue.value);
   } else {
     newModelValue = value?.value;
   }

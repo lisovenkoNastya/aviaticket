@@ -2,8 +2,11 @@
   <app-sheet class="ticket-card shadow-3">
     <div class="ticket-card__top flex items-center justify-between mb2">
       <div class="ticket-card__price h3 line-height-1" v-format-number>{{ ticketData.price }} Р</div>
-      <div class="ticket-card__price">
-        <img class="block" :src="currentCompanyLogo" />
+      <div class="ticket-card__company">
+        <picture class="block">
+          <source :srcset="currentCompanyLogo" />
+          <img :src="currentCompanyLogo" />
+        </picture>
       </div>
     </div>
     <div class="ticket-card__bottom flex items-center justify-between">

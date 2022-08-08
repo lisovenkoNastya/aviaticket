@@ -9,11 +9,11 @@
     <div class="ticket-card__bottom flex items-center justify-between">
       <div class="ticket-card__route col-4">
         <div class="subheading text-muted">{{ ticketData.info.origin }} – {{ ticketData.info.destination }}</div>
-        <div>10:45 – 08:00</div>
+        <div>{{ timeStartEnd }}</div>
       </div>
       <div class="ticket-card__duration col-4">
         <div class="subheading text-muted">В пути</div>
-        <div>{{ Math.round(ticketData.info.duration / MS_IN_HOUR) }} ч</div>
+        <div>{{ durationString }}</div>
       </div>
       <div class="ticket-card__stops col-4">
         <template v-if="ticketData.info.stops.length">
@@ -32,8 +32,7 @@ import { Ticket } from '@/interfaces/Ticket';
 import AppSheet from '@/components/ui/AppSheet.vue';
 import useComapanies from '@/composables/useCompanies';
 import vFormatNumber from '@/directives/vFormatNumber';
-
-const MS_IN_HOUR = 1000 * 60 * 60;
+import { msToString, timestampToString } from '@/utilities/dateTimeUtils';
 
 interface TicketCardProps {
   ticketData: DeepReadonly<Ticket>;
@@ -43,6 +42,11 @@ const { ticketData } = toRefs(props);
 const { getCompanyLogo } = useComapanies();
 
 const currentCompanyLogo = computed(() => getCompanyLogo(ticketData.value.companyId));
+const durationString = computed(() => msToString(ticketData.value.info.duration));
+
+const timeStartEnd = computed(
+  () => `${timestampToString(ticketData.value.info.dateStart)} – ${timestampToString(ticketData.value.info.dateEnd)}`,
+);
 </script>
 
 <style scoped lang="scss">

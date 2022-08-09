@@ -21,8 +21,12 @@ const useCompanies = (): {
 
     areCompaniesLoading.value = true;
     try {
-      const data = await companyApi.fetchCompanies();
-      updateCompanies(data);
+      const companyData: Company[] = await companyApi.fetchCompanies();
+      const companyDataWithLogo: Company[] = companyData.map((company) => ({
+        ...company,
+        logo: `/img/companies/${company.logo}`,
+      }));
+      updateCompanies(companyDataWithLogo);
     } finally {
       areCompaniesLoading.value = false;
     }
@@ -30,7 +34,7 @@ const useCompanies = (): {
 
   const getCompanyLogo = (companyId: string): string => {
     const logoName = companies.value.find((company) => company.id === companyId)?.logo;
-    return logoName && require(`@/assets/companies/${logoName}`);
+    return logoName || '';
   };
 
   if (!companies.value.length) {

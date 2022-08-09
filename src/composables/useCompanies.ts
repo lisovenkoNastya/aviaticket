@@ -4,11 +4,6 @@ import { Company } from '@/interfaces/Company';
 
 const companies: Ref<Company[]> = ref([]);
 const areCompaniesLoading: Ref<boolean> = ref(false);
-const companyLogos: __WebpackModuleApi.RequireContext = require.context(
-  '@/assets/companies',
-  false,
-  /\.png$/,
-);
 
 const useCompanies = (): {
   companies: DeepReadonly<Ref<Company[]>>;
@@ -33,9 +28,9 @@ const useCompanies = (): {
     }
   };
 
-  const getCompanyLogo = (companyId: string) => {
-    const logoName = companies.value.find((x) => x.id === companyId)?.logo;
-    return logoName && companyLogos(`./${logoName}`);
+  const getCompanyLogo = (companyId: string): string => {
+    const logoName = companies.value.find((company) => company.id === companyId)?.logo;
+    return logoName && require(`@/assets/companies/${logoName}`);
   };
 
   if (!companies.value.length) {

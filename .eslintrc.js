@@ -3,12 +3,7 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    '@vue/airbnb',
-    '@vue/typescript/recommended',
-    'prettier',
-  ],
+  extends: ['plugin:vue/vue3-essential', '@vue/airbnb', '@vue/typescript/recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 2020,
   },
@@ -17,5 +12,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'object-curly-newline': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-dynamic-require': 'off',
+    'global-require': 'off',
   },
 };

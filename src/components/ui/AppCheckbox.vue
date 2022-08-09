@@ -7,24 +7,23 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRefs, defineEmits, computed, DeepReadonly } from 'vue';
+import { defineProps, toRefs, defineEmits, computed } from 'vue';
 
 interface CheckboxProps {
   id: string;
   name: string;
   label: string;
   value?: number | string;
-  modelValue: boolean | DeepReadonly<boolean> | Array<number | string> | DeepReadonly<Array<number | string>>;
+  modelValue: any;
 }
 const props = defineProps<CheckboxProps>();
 const { id, name, label, value, modelValue } = toRefs(props);
+const strValue = computed(() => String(value?.value));
 
 const emit = defineEmits(['update:modelValue']);
 
 const isChecked = computed(() =>
-  Array.isArray(modelValue.value)
-    ? modelValue.value.map((x) => String(x)).includes(String(value?.value))
-    : !!modelValue.value,
+  Array.isArray(modelValue.value) ? modelValue.value.some((x) => String(x) === strValue.value) : modelValue.value,
 );
 
 function updateValue(event: Event) {
@@ -35,7 +34,7 @@ function updateValue(event: Event) {
   if (Array.isArray(modelValue.value)) {
     newModelValue = isInputChecked
       ? [...modelValue.value, value?.value]
-      : [...modelValue.value].filter((x) => String(x) !== String(value?.value));
+      : [...modelValue.value].filter((x) => String(x) !== strValue.value);
   } else {
     newModelValue = value?.value;
   }

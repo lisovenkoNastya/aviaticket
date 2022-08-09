@@ -5,23 +5,15 @@
     <div class="clearfix mxn1">
       <div class="md-col md-col-4 px1"><TicketFilter /></div>
       <div class="md-col md-col-8 px1">
-        <AppButtonToggle
-          class="mb2"
-          stretch
-          :options="ticketSortingOptions"
-          v-model="ticketSorting"
-        ></AppButtonToggle>
+        <AppButtonToggle class="mb2" stretch :options="ticketSortingOptions" v-model="ticketSorting"></AppButtonToggle>
         <template v-if="areTicketsLoading">loading...</template>
+        <template v-else-if="tickets === undefined"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
+        <template v-else-if="tickets && tickets.length === 0">
+          Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.
+        </template>
         <template v-else>
-          <TicketCard
-            v-for="ticket in tickets?.slice(0, 5)"
-            :key="ticket.id"
-            :ticket-data="ticket"
-            class="mb2"
-          />
-          <AppButton class="block" color="primary" stretch>
-            Показать еще 5&nbsp;билетов
-          </AppButton>
+          <TicketCard v-for="ticket in tickets?.slice(0, 5)" :key="ticket.id" :ticket-data="ticket" class="mb2" />
+          <AppButton class="block" color="primary" stretch> Показать еще 5&nbsp;билетов </AppButton>
         </template>
       </div>
     </div>

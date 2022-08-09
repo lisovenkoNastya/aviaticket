@@ -1,14 +1,7 @@
 <template>
   <label :for="id" :class="['app-radio', { 'app-radio--checked': isChecked }]">
-    <input
-      type="radio"
-      :id="id"
-      :name="name"
-      :value="value"
-      :checked="isChecked"
-      @change="updateValue"
-    />
-    <span class="app-radio__control"></span>
+    <input type="radio" :id="id" :name="name" :value="value" :checked="isChecked" @change="updateValue" />
+    <span :class="['app-radio__control', 'mdi', `mdi-radiobox-${isChecked ? 'marked' : 'blank'}`]"></span>
     <span class="app-radio__label">{{ label }}</span>
   </label>
 </template>
@@ -28,9 +21,7 @@ const { id, name, label, value, modelValue } = toRefs(props);
 
 const emit = defineEmits(['update:modelValue']);
 
-const isChecked = computed(
-  () => String(value.value) === String(modelValue.value),
-);
+const isChecked = computed(() => String(value.value) === String(modelValue.value));
 
 function updateValue() {
   emit('update:modelValue', value.value);
@@ -49,14 +40,13 @@ function updateValue() {
   &__control {
     display: inline-block;
     vertical-align: middle;
-    margin-right: 9px;
-    margin-left: -1px;
-    width: 22px;
-    height: 22px;
-    background: url('~@/assets/radio.svg') 0 0 no-repeat;
-  }
-  &--checked .app-radio__control {
-    background: url('~@/assets/radio_checked.svg') 0 0 no-repeat;
+    margin-right: $space-1;
+    margin-left: -2px;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    line-height: 1;
+    color: $primary;
   }
 
   &__label {

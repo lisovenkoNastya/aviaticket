@@ -1,17 +1,7 @@
 <template>
-  <label
-    :for="id"
-    :class="['app-checkbox', { 'app-checkbox--checked': isChecked }]"
-  >
-    <input
-      type="checkbox"
-      :id="id"
-      :name="name"
-      :value="value"
-      :checked="isChecked"
-      @change="updateValue"
-    />
-    <span class="app-checkbox__control"></span>
+  <label :for="id" :class="['app-checkbox', { 'app-checkbox--checked': isChecked }]">
+    <input type="checkbox" :id="id" :name="name" :value="value" :checked="isChecked" @change="updateValue" />
+    <span :class="['app-checkbox__control', 'mdi', `mdi-checkbox-${isChecked ? 'marked' : 'blank-outline'}`]"></span>
     <span class="app-checkbox__label">{{ label }}</span>
   </label>
 </template>
@@ -24,11 +14,7 @@ interface CheckboxProps {
   name: string;
   label: string;
   value?: number | string;
-  modelValue:
-    | boolean
-    | DeepReadonly<boolean>
-    | Array<number | string>
-    | DeepReadonly<Array<number | string>>;
+  modelValue: boolean | DeepReadonly<boolean> | Array<number | string> | DeepReadonly<Array<number | string>>;
 }
 const props = defineProps<CheckboxProps>();
 const { id, name, label, value, modelValue } = toRefs(props);
@@ -70,12 +56,12 @@ function updateValue(event: Event) {
     display: inline-block;
     vertical-align: middle;
     margin-right: $space-1;
-    width: 20px;
-    height: 20px;
-    background: url('~@/assets/checkbox.svg') 0 0 no-repeat;
-  }
-  &--checked .app-checkbox__control {
-    background: url('~@/assets/checkbox_checked.svg') 0 0 no-repeat;
+    margin-left: -2px;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    line-height: 1;
+    color: $primary;
   }
 
   &__label {

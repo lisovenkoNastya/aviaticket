@@ -10,7 +10,6 @@ const msToString = (ms: number): string => {
 
 const timestampToString = (timestamp: number): string => {
   const date: Date = new Date(timestamp);
-  console.log(date);
   return `${date.getHours()}:${date.getMinutes()}`;
 };
 export { msToString, timestampToString };

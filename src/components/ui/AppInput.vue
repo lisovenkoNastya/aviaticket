@@ -1,6 +1,6 @@
 <template>
   <div class="app-input">
-    <slot :updateValue="updateValue">
+    <slot :updateValue="updateValue" :updateValueFromEvent="updateValueFromEvent">
       <input
         :type="type || 'text'"
         :name="name"
@@ -8,7 +8,7 @@
         :placeholder="placeholder"
         :disabled="!!disabled"
         :maxlength="maxlength"
-        @input="updateValue"
+        @input="updateValueFromEvent"
       />
     </slot>
   </div>
@@ -54,13 +54,12 @@ const props = defineProps<AppInputProps>();
 const { name, placeholder, type, modelValue, disabled } = toRefs(props);
 const emit = defineEmits(['update:modelValue']);
 
-function updateValue(event: Event | Date) {
-  if (event instanceof Event) {
-    const { target } = event;
-    emit('update:modelValue', (target as HTMLInputElement)?.value);
-  } else {
-    emit('update:modelValue', event);
-  }
+function updateValueFromEvent(event: Event) {
+  const { target } = event;
+  emit('update:modelValue', (target as HTMLInputElement)?.value);
+}
+function updateValue(value: string | Date) {
+  emit('update:modelValue', value);
 }
 </script>
 

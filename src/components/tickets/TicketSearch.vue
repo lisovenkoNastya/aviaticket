@@ -13,7 +13,7 @@ import TicketSearchDates from './TicketSearchDates.vue';
 <style scoped lang="scss">
 .ticket-search {
   display: flex;
-  .ticket-search__direction {
+  &__direction {
     margin-right: 2px;
   }
 }

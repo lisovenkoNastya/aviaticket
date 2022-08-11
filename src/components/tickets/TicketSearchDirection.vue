@@ -1,17 +1,17 @@
 <template>
   <div class="ticket-search-direction">
-    <AppInput
+    <AppTextfield
       class="ticket-search-direction__input shadow-3"
       :maxlength="3"
       placeholder="Откуда"
       v-model="value.from"
-    ></AppInput>
-    <AppInput
+    ></AppTextfield>
+    <AppTextfield
       class="ticket-search-direction__input shadow-3"
       :maxlength="3"
       placeholder="Куда"
       v-model="value.to"
-    ></AppInput>
+    ></AppTextfield>
     <AppButton class="ticket-search-direction__swap shadow-3" @click="swap">
       <span class="mdi mdi-swap-horizontal"></span>
     </AppButton>
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import AppInput from '../ui/AppInput.vue';
+import AppTextfield from '../ui/AppTextfield.vue';
 import AppButton from '../ui/AppButton.vue';
 
 const value = reactive({

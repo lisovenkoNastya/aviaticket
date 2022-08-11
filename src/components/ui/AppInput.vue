@@ -1,67 +1,11 @@
 <template>
   <div class="app-input">
-    <slot :updateValue="updateValue" :updateValueFromEvent="updateValueFromEvent">
-      <input
-        :type="type || 'text'"
-        :name="name"
-        :value="modelValue"
-        :placeholder="placeholder"
-        :disabled="!!disabled"
-        :maxlength="maxlength"
-        @input="updateValueFromEvent"
-      />
-    </slot>
+    <slot name="label"></slot>
+    <slot></slot>
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps, toRefs, defineEmits } from 'vue';
-
-type InputType =
-  | 'button'
-  | 'checkbox'
-  | 'color'
-  | 'date'
-  | 'datetime-local'
-  | 'email'
-  | 'file'
-  | 'hidden'
-  | 'image'
-  | 'month'
-  | 'number'
-  | 'password'
-  | 'radio'
-  | 'range'
-  | 'reset'
-  | 'search'
-  | 'submit'
-  | 'tel'
-  | 'text'
-  | 'time'
-  | 'url'
-  | 'week';
-
-interface AppInputProps {
-  name?: string;
-  placeholder?: string;
-  type?: InputType;
-  disabled?: boolean;
-  modelValue?: string;
-  maxlength?: number;
-}
-
-const props = defineProps<AppInputProps>();
-const { name, placeholder, type, modelValue, disabled } = toRefs(props);
-const emit = defineEmits(['update:modelValue']);
-
-function updateValueFromEvent(event: Event) {
-  const { target } = event;
-  emit('update:modelValue', (target as HTMLInputElement)?.value);
-}
-function updateValue(value: string | Date) {
-  emit('update:modelValue', value);
-}
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 .app-input {

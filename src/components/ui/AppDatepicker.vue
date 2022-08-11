@@ -1,24 +1,22 @@
 <template>
-  <AppInput class="app-datepicker" v-bind="$attrs">
-    <template #default="{ updateValue }">
-      <Datepicker
-        class="app-datepicker__control"
-        :name="name"
-        :placeholder="placeholder"
-        :locale="ru"
-        weekday-format="EEEEEE"
-        input-format="d MMMM, EEEEEE"
-        :model-value="modelValue"
-        @update:model-value="updateValue"
-        :disabled="disabled"
-      />
-      <span class="app-datepicker__icon mdi mdi-calendar-today"></span>
-    </template>
+  <AppInput class="app-datepicker">
+    <Datepicker
+      class="app-datepicker__control"
+      :name="name"
+      :placeholder="placeholder"
+      :locale="ru"
+      weekday-format="EEEEEE"
+      input-format="d MMMM, EEEEEE"
+      :model-value="modelValue"
+      @update:model-value="updateValue"
+      :disabled="disabled"
+    />
+    <span class="app-datepicker__icon mdi mdi-calendar-today"></span>
   </AppInput>
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRefs } from 'vue';
+import { defineProps, toRefs, defineEmits } from 'vue';
 import { ru } from 'date-fns/locale';
 import Datepicker from 'vue3-datepicker';
 import AppInput from './AppInput.vue';
@@ -32,6 +30,11 @@ interface AppInputProps {
 
 const props = defineProps<AppInputProps>();
 const { name, placeholder, modelValue, disabled } = toRefs(props);
+const emit = defineEmits(['update:modelValue']);
+
+function updateValue(value: Date) {
+  emit('update:modelValue', value);
+}
 </script>
 
 <style scoped lang="scss">

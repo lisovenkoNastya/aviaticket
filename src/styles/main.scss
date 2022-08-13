@@ -1,0 +1,43 @@
+
+@import './variables.scss';
+@import 'basscss-sass/scss/_layout';
+@import 'basscss-sass/scss/_grid';
+@import 'basscss-sass/scss/_margin';
+@import 'basscss-sass/scss/_padding';
+@import 'basscss-sass/scss/_type-scale';
+@import 'basscss-sass/scss/_typography';
+@import 'basscss-sass/scss/_border';
+@import 'basscss-sass/scss/_flexbox';
+@import './partials/typography.scss';
+@import './partials/shadows.scss';
+
+html, body {
+  font-size: 14px;
+  font-family: $body-font-family;
+  margin: 0;
+  padding: 0;
+  background-color: $bg-color;
+  color: $text-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container{
+  max-width: 764px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-1;
+  padding-right: $space-1;
+}
+
+.myn1 { margin-top: -$space-1; margin-bottom: -$space-1; }
+
+.myn2 { margin-top: -$space-2; margin-bottom: -$space-2; }
+
+.myn3 { margin-top: -$space-3; margin-bottom: -$space-3; }
+
+.myn4 { margin-top: -$space-4; margin-bottom: -$space-4; }
+
+.mt05{
+  margin-top: $space-1/2;
+}

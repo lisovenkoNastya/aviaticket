@@ -6,12 +6,12 @@
       <div class="md-col md-col-4 px1"><TicketFilter /></div>
       <div class="md-col md-col-8 px1">
         <AppButtonToggle class="mb2" stretch :options="ticketSortingOptions" v-model="ticketSorting"></AppButtonToggle>
-        <template v-if="areTicketsLoading">loading...</template>
-        <template v-else-if="tickets === undefined"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
-        <template v-else-if="tickets && tickets.length === 0">
+        <template v-if="state === 'loading'">loading...</template>
+        <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
+        <template v-if="state === 'empty'">
           Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.
         </template>
-        <template v-else>
+        <template v-if="state === 'full'">
           <TicketCard v-for="ticket in tickets?.slice(0, 5)" :key="ticket.id" :ticket-data="ticket" class="mb2" />
           <AppButton class="block" color="primary" stretch> Показать еще 5&nbsp;билетов </AppButton>
         </template>
@@ -30,7 +30,7 @@ import TicketFilter from '@/components/tickets/TicketFilter.vue';
 import TicketSearch from '@/components/tickets/TicketSearch.vue';
 import useTickets from '@/composables/useTickets';
 
-const { tickets, areTicketsLoading } = useTickets();
+const { tickets, state } = useTickets();
 
 // watchEffect(() => { filterValueInner.value = filterValue.value})
 

@@ -1,29 +1,38 @@
 import { ref, Ref, readonly, DeepReadonly } from 'vue';
+import { ticketMachine, ticketMachineService } from '@/machines/ticketMachine';
 import ticketApi from '@/api/ticketApi';
 import { Ticket } from '@/interfaces/Ticket';
+import { StateValue } from 'xstate';
 
 const tickets: Ref<Ticket[] | undefined> = ref(undefined);
-const areTicketsLoading: Ref<boolean> = ref(false);
+const state: Ref<StateValue> = ref(ticketMachine.initialState.value);
+
+ticketMachineService
+  .onTransition((newState) => {
+    state.value = newState.value;
+  })
+  .start();
 
 const useTickets = (): {
   tickets: DeepReadonly<Ref<Ticket[] | undefined>>;
-  areTicketsLoading: DeepReadonly<Ref<boolean>>;
   updateTickets: (newTicket: Ticket[]) => void;
   loadTickets: () => void;
+  state: DeepReadonly<Ref<StateValue>>;
 } => {
   const updateTickets = (newTickets: Ticket[]) => {
     tickets.value = newTickets;
   };
 
   const loadTickets = async () => {
-    if (areTicketsLoading.value) return;
+    if (state.value === 'loading') return;
 
-    areTicketsLoading.value = true;
+    ticketMachineService.send('LOAD_DATA');
     try {
       const data = await ticketApi.fetchTickets();
       updateTickets(data);
-    } finally {
-      areTicketsLoading.value = false;
+      ticketMachineService.send(data.length > 0 ? 'DATA_LOADED' : 'NOTHING_LOADED');
+    } catch {
+      ticketMachineService.send('FAIL');
     }
   };
 
@@ -31,9 +40,9 @@ const useTickets = (): {
 
   return {
     tickets: readonly(tickets),
-    areTicketsLoading: readonly(areTicketsLoading),
     updateTickets,
     loadTickets,
+    state: readonly(state),
   };
 };
 

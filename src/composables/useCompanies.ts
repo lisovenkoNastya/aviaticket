@@ -1,25 +1,33 @@
 import { ref, Ref, readonly, DeepReadonly } from 'vue';
+import { companyMachine, companyMachineService } from '@/machines/companyMachine';
 import companyApi from '@/api/companyApi';
 import { Company } from '@/interfaces/Company';
+import { StateValue } from 'xstate';
 
 const companies: Ref<Company[]> = ref([]);
-const areCompaniesLoading: Ref<boolean> = ref(false);
+const state: Ref<StateValue> = ref(companyMachine.initialState.value);
+
+companyMachineService
+  .onTransition((newState) => {
+    state.value = newState.value;
+  })
+  .start();
 
 const useCompanies = (): {
   companies: DeepReadonly<Ref<Company[]>>;
-  areCompaniesLoading: DeepReadonly<Ref<boolean>>;
   loadCompanies: () => void;
   updateCompanies: (newCompanies: Company[]) => void;
   getCompanyLogo: (companyId: string) => string;
+  state: DeepReadonly<Ref<StateValue>>;
 } => {
   const updateCompanies = (newCompanies: Company[]) => {
     companies.value = newCompanies;
   };
 
   const loadCompanies = async () => {
-    if (areCompaniesLoading.value) return;
+    if (state.value === 'loading') return;
 
-    areCompaniesLoading.value = true;
+    companyMachineService.send('LOAD_DATA');
     try {
       const companyData: Company[] = await companyApi.fetchCompanies();
       const companyDataWithLogo: Company[] = companyData.map((company) => ({
@@ -27,8 +35,9 @@ const useCompanies = (): {
         logo: `/img/companies/${company.logo}`,
       }));
       updateCompanies(companyDataWithLogo);
-    } finally {
-      areCompaniesLoading.value = false;
+      companyMachineService.send(companyDataWithLogo.length > 0 ? 'DATA_LOADED' : 'NOTHING_LOADED');
+    } catch {
+      companyMachineService.send('FAILURE');
     }
   };
 
@@ -42,10 +51,10 @@ const useCompanies = (): {
   }
   return {
     companies: readonly(companies),
-    areCompaniesLoading: readonly(areCompaniesLoading),
     loadCompanies,
     updateCompanies,
     getCompanyLogo,
+    state: readonly(state),
   };
 };
 export default useCompanies;

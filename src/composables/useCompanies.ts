@@ -28,11 +28,12 @@ const useCompanies = (): {
     if (state.value === 'loading') return;
 
     companyMachineService.send('LOAD_DATA');
+    console.log(process.env);
     try {
       const companyData: Company[] = await companyApi.fetchCompanies();
       const companyDataWithLogo: Company[] = companyData.map((company) => ({
         ...company,
-        logo: `/img/companies/${company.logo}`,
+        logo: `${process.env.VUE_APP_COMPANY_LOGO_PATH}${company.logo}`,
       }));
       updateCompanies(companyDataWithLogo);
       companyMachineService.send(companyDataWithLogo.length > 0 ? 'DATA_LOADED' : 'NOTHING_LOADED');

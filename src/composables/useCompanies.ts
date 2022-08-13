@@ -37,7 +37,7 @@ const useCompanies = (): {
     return logoName || '';
   };
 
-  if (!companies.value.length) {
+  if (companies.value.length === 0) {
     loadCompanies();
   }
   return {

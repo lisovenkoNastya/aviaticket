@@ -1,11 +1,12 @@
 import { ref, Ref, readonly, DeepReadonly, computed, ComputedRef } from 'vue';
 import { FilterParam } from '@/interfaces/FilterParams';
+import { ControlOption } from '@/interfaces/ControlOption';
 import useCompanies from './useCompanies';
 
 const { companies } = useCompanies();
-const companyOptions = computed(() => [
+const companyOptions: ComputedRef<ControlOption[]> = computed(() => [
   { text: 'Все', value: 'all' },
-  ...companies.value?.map((company) => ({
+  ...companies.value.map((company) => ({
     text: company.name,
     value: company.id,
   })),

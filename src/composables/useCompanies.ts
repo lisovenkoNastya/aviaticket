@@ -28,7 +28,6 @@ const useCompanies = (): {
     if (state.value === 'loading') return;
 
     companyMachineService.send('LOAD_DATA');
-    console.log(process.env);
     try {
       const companyData: Company[] = await companyApi.fetchCompanies();
       const companyDataWithLogo: Company[] = companyData.map((company) => ({
@@ -47,7 +46,7 @@ const useCompanies = (): {
     return logoName || '';
   };
 
-  if (companies.value.length === 0) {
+  if (state.value === 'iddle') {
     loadCompanies();
   }
   return {

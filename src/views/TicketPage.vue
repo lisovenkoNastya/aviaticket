@@ -12,7 +12,7 @@
           Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.
         </template>
         <template v-if="state === 'full'">
-          <TicketCard v-for="ticket in tickets?.slice(0, 5)" :key="ticket.id" :ticket-data="ticket" class="mb2" />
+          <TicketCard v-for="ticket in tickets.slice(0, 5)" :key="ticket.id" :ticket-data="ticket" class="mb2" />
           <AppButton class="block" color="primary" stretch> Показать еще 5&nbsp;билетов </AppButton>
         </template>
       </div>

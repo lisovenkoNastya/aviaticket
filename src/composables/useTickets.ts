@@ -4,7 +4,7 @@ import ticketApi from '@/api/ticketApi';
 import { Ticket } from '@/interfaces/Ticket';
 import { StateValue } from 'xstate';
 
-const tickets: Ref<Ticket[] | undefined> = ref(undefined);
+const tickets: Ref<Ticket[]> = ref([]);
 const state: Ref<StateValue> = ref(ticketMachine.initialState.value);
 
 ticketMachineService
@@ -14,7 +14,7 @@ ticketMachineService
   .start();
 
 const useTickets = (): {
-  tickets: DeepReadonly<Ref<Ticket[] | undefined>>;
+  tickets: DeepReadonly<Ref<Ticket[]>>;
   updateTickets: (newTicket: Ticket[]) => void;
   loadTickets: () => void;
   state: DeepReadonly<Ref<StateValue>>;

@@ -31,9 +31,6 @@ import TicketSearch from '@/components/tickets/TicketSearch.vue';
 import useTickets from '@/composables/useTickets';
 
 const { tickets, state } = useTickets();
-
-// watchEffect(() => { filterValueInner.value = filterValue.value})
-
 const ticketSortingOptions: Record<'text' | 'value', string | number>[] = [
   {
     text: 'Самый дешевый',

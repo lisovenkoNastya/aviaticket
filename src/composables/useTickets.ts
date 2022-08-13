@@ -36,7 +36,7 @@ const useTickets = (): {
     }
   };
 
-  if (!tickets.value) loadTickets();
+  if (state.value === 'iddle') loadTickets();
 
   return {
     tickets: readonly(tickets),

@@ -3,6 +3,7 @@ $text-color: #4A4A4A;
 $bg-color: #F3F7FA;
 $primary: #2196F3;
 $primary-bg: #F1FCFF;
+$accent: #FF6F32;
 $grey: #A0B0B9;
 
 //typography
@@ -13,6 +14,8 @@ $h3: 24px;
 $body-font-family: "Open Sans", sans-serif;
 $heading-font-family: "Open Sans", sans-serif;
 
+$caps-letter-spacing: .5px;
+
 $border-radius: 5px;
 $border-color: #DFE5EC;
 
@@ -22,3 +25,19 @@ $space-3: 30px;
 $space-4: 40px;
 
 $button-height: 50px;
+
+$breakpoint-sm: '(min-width: 40em)' !default;
+$breakpoint-md: '(min-width: 52em)' !default;
+$breakpoint-lg: '(min-width: 64em)' !default;
+
+:root {
+  --vdp-selected-bg-color: #2196F3;
+  --vdp-hover-bg-color: #2196F3;
+  --vdp-elem-font-size: 12px;
+  --vdp-elem-border-radius: 10px;
+  --vdp-text-color: black;
+  --vdp-divider-color: transparent;
+  --vdp-border-radius: 10px;
+  --vdp-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --vdp-heading-hover-color: #F1FCFF;
+}

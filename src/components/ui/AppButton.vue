@@ -41,6 +41,7 @@ const { type, color, label, outlined, stretch } = toRefs(props);
 
   &:hover {
     background-color: $primary-bg;
+    border-color: $primary-bg;
   }
   &:active {
     background-color: darken($primary-bg, 2%);

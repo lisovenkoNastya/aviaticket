@@ -2,18 +2,26 @@
   "name": "aviaticket",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lisovenkoNastya.github.io/aviaticket",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@fontsource/open-sans": "^4.5.10",
+    "@mdi/font": "^7.0.96",
+    "axios": "^0.27.2",
     "basscss-sass": "^4.0.0",
     "core-js": "^3.6.5",
+    "date-fns": "^2.29.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue3-datepicker": "^0.3.4",
+    "vuex": "^4.0.0-0",
+    "xstate": "^4.33.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",
@@ -32,6 +40,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "gh-pages": "^4.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~4.1.5"

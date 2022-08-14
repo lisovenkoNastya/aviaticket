@@ -10,6 +10,7 @@
 @import 'basscss-sass/scss/_flexbox';
 @import './partials/typography.scss';
 @import './partials/shadows.scss';
+@import '~@mdi/font/css/materialdesignicons.css';
 
 html, body {
   font-size: 14px;

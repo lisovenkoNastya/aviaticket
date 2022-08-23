@@ -8,8 +8,7 @@ const msToString = (ms: number): string => {
   return `${hours}ч ${minutes}м`;
 };
 
-const timestampToString = (timestamp: number): string => {
-  const date: Date = new Date(timestamp);
-  return `${date.getHours()}:${date.getMinutes()}`;
+const dateToString = (date: Date): string => {
+  return `${date.getDate()}.${date.getMonth() + 1}  ${date.getHours()}:${date.getMinutes()}`;
 };
-export { msToString, timestampToString };
+export { msToString, dateToString };

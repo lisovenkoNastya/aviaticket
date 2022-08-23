@@ -5,15 +5,24 @@
     <div class="clearfix mxn1">
       <div class="md-col md-col-4 px1"><TicketFilter /></div>
       <div class="md-col md-col-8 px1">
-        <AppButtonToggle class="mb2" stretch :options="ticketSortingOptions" v-model="ticketSorting"></AppButtonToggle>
+        <TicketSorting class="mb2"></TicketSorting>
         <template v-if="state === 'loading'">loading...</template>
         <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
-        <template v-if="state === 'empty'">
-          Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.
-        </template>
-        <template v-if="state === 'full'">
-          <TicketCard v-for="ticket in tickets.slice(0, 5)" :key="ticket.id" :ticket-data="ticket" class="mb2" />
-          <AppButton class="block" color="primary" stretch> Показать еще 5&nbsp;билетов </AppButton>
+        <template v-if="state === 'ready'">
+          <temlate v-if="ticketsPaginated.length > 0">
+            <TicketCard v-for="ticket in ticketsPaginated" :key="ticket.id" :ticket-data="ticket" class="mb2" />
+            <PaginationButton
+              v-if="ticketsFiltered.length > ticketCount"
+              v-model="ticketCount"
+              :step="5"
+              class="block"
+              color="primary"
+              stretch
+            >
+              Показать еще 5&nbsp;билетов
+            </PaginationButton>
+          </temlate>
+          <template v-else>Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.</template>
         </template>
       </div>
     </div>
@@ -21,31 +30,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Ref, ref, readonly } from 'vue';
+
 import BaseLayout from '@/layouts/BaseLayout.vue';
-import AppButton from '@/components/ui/AppButton.vue';
-import AppButtonToggle from '@/components/ui/AppButtonToggle.vue';
 import TicketCard from '@/components/tickets/TicketCard.vue';
 import TicketFilter from '@/components/tickets/TicketFilter.vue';
 import TicketSearch from '@/components/tickets/TicketSearch.vue';
-import useTickets from '@/composables/useTickets';
+import TicketSorting from '@/components/tickets/TicketSorting.vue';
+import PaginationButton from '@/components/tickets/PaginationButton.vue';
 
-const { tickets, state } = useTickets();
-const ticketSortingOptions: Record<'text' | 'value', string | number>[] = [
-  {
-    text: 'Самый дешевый',
-    value: 'cheapest',
-  },
-  {
-    text: 'Самый быстрый',
-    value: 'fastest',
-  },
-  {
-    text: 'Оптимальный',
-    value: 'optimal',
-  },
-];
-const ticketSorting = ref('cheapest');
+import useTickets from '@/composables/useTickets';
+import useStopNumberFilter from '@/composables/useStopNumberFilter';
+import useCompanyFilter from '@/composables/useCompanyFilter';
+import useTicketSearch from '@/composables/useTicketSearch';
+import useTicketSorting from '@/composables/useTicketSorting';
+
+const { stopNumberSelected } = useStopNumberFilter();
+const { companySelected } = useCompanyFilter();
+const { directionSelected, datesSelected } = useTicketSearch();
+const { sortingMode } = useTicketSorting();
+const ticketCount: Ref<number> = ref(5);
+
+const { ticketsFiltered, ticketsPaginated, state } = useTickets({
+  stopNumbers: stopNumberSelected,
+  company: companySelected,
+  direction: directionSelected,
+  dates: datesSelected,
+  sorting: sortingMode,
+  count: readonly(ticketCount),
+});
 </script>
 
 <style lang="scss" scoped>

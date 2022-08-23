@@ -35,7 +35,7 @@ import { Ticket } from '@/interfaces/Ticket';
 import AppSheet from '@/components/ui/AppSheet.vue';
 import useComapanies from '@/composables/useCompanies';
 import vFormatNumber from '@/directives/vFormatNumber';
-import { msToString, timestampToString } from '@/utilities/dateTimeUtils';
+import { msToString, dateToString } from '@/utilities/dateTimeUtils';
 
 interface TicketCardProps {
   ticketData: DeepReadonly<Ticket>;
@@ -48,7 +48,7 @@ const currentCompanyLogo = computed(() => getCompanyLogo(ticketData.value.compan
 const durationString = computed(() => msToString(ticketData.value.info.duration));
 
 const timeStartEnd = computed(
-  () => `${timestampToString(ticketData.value.info.dateStart)} – ${timestampToString(ticketData.value.info.dateEnd)}`,
+  () => `${dateToString(ticketData.value.info.dateStart)} – ${dateToString(ticketData.value.info.dateEnd)}`,
 );
 </script>
 

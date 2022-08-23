@@ -1,12 +1,9 @@
 import { createMachine, interpret } from 'xstate';
-import { DATA_MACHINE_STATES } from './constants/dataMachineStates';
+import DATA_MACHINE_CONFIG from './generic/dataMachineConfig.json';
 
 export const ticketMachine = createMachine({
   id: 'ticketMachine',
-  initial: 'iddle',
-  states: {
-    ...DATA_MACHINE_STATES,
-  },
+  ...DATA_MACHINE_CONFIG,
 });
 
 export const ticketMachineService = interpret(ticketMachine);

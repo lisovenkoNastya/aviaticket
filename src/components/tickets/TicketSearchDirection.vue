@@ -1,21 +1,17 @@
 <template>
   <div class="ticket-search-direction">
-    <AppSelect
+    <AppTextfield
       class="ticket-search-direction__input shadow-3"
+      :maxlength="3"
       placeholder="Откуда"
-      :model-value="directionSelected.from"
-      :options="directionOptionsFrom"
-      @update:model-value="updateValue('from', $event)"
-      clearable
-    ></AppSelect>
-    <AppSelect
+      v-model="value.from"
+    ></AppTextfield>
+    <AppTextfield
       class="ticket-search-direction__input shadow-3"
+      :maxlength="3"
       placeholder="Куда"
-      :model-value="directionSelected.to"
-      :options="directionOptionsTo"
-      @update:model-value="updateValue('to', $event)"
-      clearable
-    ></AppSelect>
+      v-model="value.to"
+    ></AppTextfield>
     <AppButton class="ticket-search-direction__swap shadow-3" @click="swap">
       <span class="mdi mdi-swap-horizontal"></span>
     </AppButton>
@@ -23,34 +19,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ComputedRef } from 'vue';
-import useTicketSearch from '@/composables/useTicketSearch';
-import { CityCode } from '@/interfaces/CityCode';
-import { ControlOption } from '@/interfaces/ControlOption';
-import AppSelect from '../ui/AppSelect.vue';
+import { reactive } from 'vue';
+import AppTextfield from '../ui/AppTextfield.vue';
 import AppButton from '../ui/AppButton.vue';
 
-const { directionOptions, directionSelected, updateDirection } = useTicketSearch();
-
-const directionOptionsFrom: ComputedRef<ControlOption[]> = computed(() =>
-  directionOptions.map((option) => ({ ...option, disabled: option.value === directionSelected.value.to })),
-);
-const directionOptionsTo: ComputedRef<ControlOption[]> = computed(() =>
-  directionOptions.map((option) => ({ ...option, disabled: option.value === directionSelected.value.from })),
-);
+const value = reactive({
+  from: undefined,
+  to: undefined,
+});
 
 function swap() {
-  updateDirection({
-    from: directionSelected.value.to,
-    to: directionSelected.value.from,
-  });
-}
-
-function updateValue(key: 'from' | 'to', newValue: CityCode) {
-  updateDirection({
-    ...directionSelected.value,
-    [key]: newValue,
-  });
+  const toSaved = value.to;
+  value.to = value.from;
+  value.from = toSaved;
 }
 </script>
 

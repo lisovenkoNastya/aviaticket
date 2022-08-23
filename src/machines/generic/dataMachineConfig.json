@@ -1,0 +1,27 @@
+{
+  "initial": "iddle",
+  "states": {
+    "iddle": {
+      "on": { "LOAD_DATA": "loading" }
+    },
+    "loading": {
+      "on": {
+        "DATA_LOADED": "full",
+        "NOTHING_LOADED": "empty",
+        "FAIL": "failure"
+      }
+    },
+    "full": {
+      "on": {
+        "LOAD_DATA": "loading",
+        "CLEAR": "empty"
+      }
+    },
+    "empty": {
+      "on": { "LOAD_DATA": "loading" }
+    },
+    "failure": {
+      "on": { "LOAD_DATA": "loading" }
+    }
+  }
+}

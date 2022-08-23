@@ -3,33 +3,24 @@
     <AppDatepicker
       class="ticket-search-dates__control shadow-3"
       placeholder="Когда"
-      :model-value="datesSelected.there"
-      @update:model-value="updateValue($event, 'there')"
-      clearable
+      v-model="value.there"
     ></AppDatepicker>
     <AppDatepicker
       class="ticket-search-dates__control shadow-3"
-      :model-value="datesSelected.back"
+      v-model="value.back"
       placeholder="Обратно"
-      @update:model-value="updateValue($event, 'back')"
-      clearable
-      :lower-limit="datesSelected.there"
     ></AppDatepicker>
   </div>
 </template>
 
 <script setup lang="ts">
-import useTicketSearch from '@/composables/useTicketSearch';
+import { reactive } from 'vue';
 import AppDatepicker from '../ui/AppDatepicker.vue';
 
-const { datesSelected, updateDates } = useTicketSearch();
-
-function updateValue(newValue: Date, key: string) {
-  updateDates({
-    ...datesSelected.value,
-    [key]: newValue,
-  });
-}
+const value = reactive({
+  there: undefined,
+  back: undefined,
+});
 </script>
 
 <style scoped lang="scss">

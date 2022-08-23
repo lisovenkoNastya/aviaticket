@@ -10,14 +10,8 @@
       :model-value="modelValue"
       @update:model-value="updateValue"
       :disabled="disabled"
-      v-bind="$attrs"
     />
     <span class="app-datepicker__icon mdi mdi-calendar-today"></span>
-    <span
-      v-if="clearable && !!modelValue"
-      class="app-datepicker__close mdi mdi-close cursor-pointer"
-      @click="clearValue"
-    ></span>
   </AppInput>
 </template>
 
@@ -32,19 +26,14 @@ interface AppInputProps {
   placeholder?: string;
   disabled?: boolean;
   modelValue?: Date;
-  clearable?: boolean;
 }
 
 const props = defineProps<AppInputProps>();
-const { name, placeholder, modelValue, disabled, clearable = false } = toRefs(props);
+const { name, placeholder, modelValue, disabled } = toRefs(props);
 const emit = defineEmits(['update:modelValue']);
 
 function updateValue(value: Date) {
   emit('update:modelValue', value);
-}
-
-function clearValue() {
-  emit('update:modelValue', undefined);
 }
 </script>
 
@@ -53,19 +42,16 @@ function clearValue() {
   position: relative;
 
   &__icon {
+    font-size: 24px;
+    height: 24px;
+    line-height: 1;
     position: absolute;
     right: 15px;
-    top: 50%;
-    margin-top: -12px;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
     color: $primary;
-  }
-
-  &__close {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    margin-top: -12px;
-    color: $grey;
   }
 
   & :deep(.app-datepicker__control) {

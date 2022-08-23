@@ -1,6 +1,18 @@
-import { CityCode } from './CityCode';
+type CityCodes =
+  | 'MOW'
+  | 'HKT'
+  | 'HKG'
+  | 'JNB'
+  | 'PTB'
+  | 'ARH'
+  | 'TRN'
+  | 'KRS'
+  | 'SRT'
+  | 'LOS'
+  | 'EKV'
+  | 'EKT';
 
-export interface TicketRaw {
+export interface Ticket {
   id: string;
   // Цена в рублях
   price: number;
@@ -9,30 +21,16 @@ export interface TicketRaw {
   // Массив идентификаторов перелётов
   info: {
     // Код города откуда вылет
-    origin: CityCode;
+    origin: CityCodes;
     // Код города куда летим
-    destination: CityCode;
+    destination: CityCodes;
     // Дата и время вылета в unix времени
     dateStart: number;
     // Дата и время прибытия в unix времени
     dateEnd: number;
     // Массив кодов городов с пересадками
-    stops: CityCode[];
+    stops: CityCodes[];
     // Длительность полета в миллисекундах
-    duration: number;
-  };
-}
-
-export interface Ticket {
-  id: string;
-  price: number;
-  companyId: string;
-  info: {
-    origin: CityCode;
-    destination: CityCode;
-    dateStart: Date;
-    dateEnd: Date;
-    stops: CityCode[];
     duration: number;
   };
 }

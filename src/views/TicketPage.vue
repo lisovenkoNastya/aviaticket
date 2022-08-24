@@ -14,7 +14,7 @@
             <PaginationButton
               v-if="ticketsFiltered.length > ticketCount"
               v-model="ticketCount"
-              :step="5"
+              :step="TICKET_COUNT_DEFAULT"
               class="block"
               color="primary"
               stretch
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref, readonly } from 'vue';
+import { Ref, ref, readonly, watch } from 'vue';
 
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import TicketCard from '@/components/tickets/TicketCard.vue';
@@ -45,11 +45,13 @@ import useCompanyFilter from '@/composables/useCompanyFilter';
 import useTicketSearch from '@/composables/useTicketSearch';
 import useTicketSorting from '@/composables/useTicketSorting';
 
+const TICKET_COUNT_DEFAULT = 5;
+
 const { stopNumberSelected } = useStopNumberFilter();
 const { companySelected } = useCompanyFilter();
 const { directionSelected, datesSelected } = useTicketSearch();
 const { sortingMode } = useTicketSorting();
-const ticketCount: Ref<number> = ref(5);
+const ticketCount: Ref<number> = ref(TICKET_COUNT_DEFAULT);
 
 const { ticketsFiltered, ticketsPaginated, state } = useTickets({
   stopNumbers: stopNumberSelected,
@@ -58,6 +60,10 @@ const { ticketsFiltered, ticketsPaginated, state } = useTickets({
   dates: datesSelected,
   sorting: sortingMode,
   count: readonly(ticketCount),
+});
+
+watch([stopNumberSelected, companySelected, directionSelected, datesSelected, sortingMode], () => {
+  ticketCount.value = TICKET_COUNT_DEFAULT;
 });
 </script>
 

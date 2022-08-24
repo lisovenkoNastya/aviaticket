@@ -9,7 +9,7 @@
         <template v-if="state === 'loading'">loading...</template>
         <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
         <template v-if="state === 'ready'">
-          <temlate v-if="ticketsPaginated.length > 0">
+          <temlate v-if="ticketsFiltered.length > 0">
             <TicketCard v-for="ticket in ticketsPaginated" :key="ticket.id" :ticket-data="ticket" class="mb2" />
             <PaginationButton
               v-if="ticketsFiltered.length > ticketCount"

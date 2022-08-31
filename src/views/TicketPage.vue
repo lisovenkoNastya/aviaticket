@@ -3,27 +3,29 @@
     <TicketSearch></TicketSearch>
     <hr />
     <div class="clearfix mxn1">
-      <div class="md-col md-col-4 px1"><TicketFilter /></div>
-      <div class="md-col md-col-8 px1">
+      <div class="ticket-page__sidebar md-col md-col-4 px1"><TicketFilter /></div>
+      <div class="ticket-page__content md-col md-col-8 px1">
         <TicketSorting class="mb2"></TicketSorting>
-        <template v-if="state === 'loading'">loading...</template>
-        <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
-        <template v-if="state === 'ready'">
-          <temlate v-if="ticketsFiltered.length > 0">
-            <TicketCard v-for="ticket in ticketsPaginated" :key="ticket.id" :ticket-data="ticket" class="mb2" />
-            <PaginationButton
-              v-if="ticketsFiltered.length > ticketCount"
-              v-model="ticketCount"
-              :step="TICKET_COUNT_DEFAULT"
-              class="block"
-              color="primary"
-              stretch
-            >
-              Показать еще 5&nbsp;билетов
-            </PaginationButton>
-          </temlate>
-          <template v-else>Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.</template>
-        </template>
+        <div class="ticket-page__tickets">
+          <template v-if="state === 'loading'">loading...</template>
+          <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
+          <template v-if="state === 'ready'">
+            <template v-if="ticketsFiltered.length > 0">
+              <TicketCard v-for="ticket in ticketsPaginated" :key="ticket.id" :ticket-data="ticket" class="mb2" />
+              <PaginationButton
+                v-if="ticketsFiltered.length > ticketCount"
+                v-model="ticketCount"
+                :step="TICKET_COUNT_DEFAULT"
+                class="block"
+                color="primary"
+                stretch
+              >
+                Показать еще 5&nbsp;билетов
+              </PaginationButton>
+            </template>
+            <template v-else>Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.</template>
+          </template>
+        </div>
       </div>
     </div>
   </BaseLayout>

@@ -6,15 +6,20 @@ const DATA_MACHINE_STATES = {
     on: {
       DATA_LOADED: 'ready',
       FAIL: 'failure',
+      RESET: 'iddle',
     },
   },
   ready: {
     on: {
       LOAD_DATA: 'loading',
+      RESET: 'iddle',
     },
   },
   failure: {
-    on: { LOAD_DATA: 'loading' },
+    on: {
+      LOAD_DATA: 'loading',
+      RESET: 'iddle',
+    },
   },
 };
 

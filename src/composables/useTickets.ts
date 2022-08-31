@@ -62,8 +62,12 @@ const useTickets = ({
 
   const loadTickets = async () => {
     if (state.value === 'loading') return;
-    const ticketsLoaded = await ticketService.loadTickets();
-    updateTickets(ticketsLoaded);
+    try {
+      const ticketsLoaded = await ticketService.loadTickets();
+      updateTickets(ticketsLoaded);
+    } catch (e) {
+      updateTickets([]);
+    }
   };
 
   if (state.value === 'iddle') loadTickets();

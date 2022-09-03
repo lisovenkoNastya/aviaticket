@@ -23,11 +23,14 @@ const findTickets = (
   tickets: Ticket[],
   { dates, direction }: { dates: TicketDates; direction: TicketDirection },
 ): Ticket[] => {
-  const ticketsThere = getSuitableTickets(tickets, {
-    dateThere: dates.there,
-    directionFrom: direction.from,
-    directionTo: direction.to,
-  });
+  const ticketsThere =
+    dates.there || direction.from || direction.to
+      ? getSuitableTickets(tickets, {
+          dateThere: dates.there,
+          directionFrom: direction.from,
+          directionTo: direction.to,
+        })
+      : tickets;
   const ticketsBack =
     dates.back && direction.from && direction.to
       ? getSuitableTickets(tickets, {
@@ -110,4 +113,4 @@ const loadTickets = async (): Promise<Ticket[]> => {
   }
 };
 
-export default { findTickets, filterTickets, sortTickets, loadTickets };
+export default { findTickets, filterTickets, sortTickets, loadTickets, getSuitableTickets };

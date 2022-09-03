@@ -5,7 +5,7 @@ import PaginationButton from '@/components/tickets/PaginationButton.vue';
 import httpClient from '@/api/httpClient';
 import { ticketMachineService } from '@/machines/ticketMachine';
 import useStopNumberFilter from '@/composables/useStopNumberFilter';
-import { MOCK_TICKETS_WITH_STOPS_ONLY } from './mocks/mockTickets';
+import { MOCK_TICKETS_RAW_WITH_STOPS_ONLY } from './mocks/mockTickets';
 
 describe('TicketPage', () => {
   const getSpy = jest.spyOn(httpClient, 'get');
@@ -19,7 +19,7 @@ describe('TicketPage', () => {
       () =>
         new Promise((resolve) => {
           setTimeout(() => {
-            resolve({ data: MOCK_TICKETS_WITH_STOPS_ONLY });
+            resolve({ data: MOCK_TICKETS_RAW_WITH_STOPS_ONLY });
           }, 20000);
         }),
     );
@@ -29,7 +29,7 @@ describe('TicketPage', () => {
   });
 
   test('displays tickets if they are loaded', async () => {
-    getSpy.mockResolvedValue({ data: MOCK_TICKETS_WITH_STOPS_ONLY });
+    getSpy.mockResolvedValue({ data: MOCK_TICKETS_RAW_WITH_STOPS_ONLY });
     const wrapper = mount(TicketPage);
     await flushPromises();
     expect(wrapper.findAllComponents(TicketCard)).toHaveLength(5);
@@ -54,7 +54,7 @@ describe('TicketPage', () => {
     );
   });
   test('displays nothing found message if filtered tickets are empty', async () => {
-    getSpy.mockResolvedValue({ data: MOCK_TICKETS_WITH_STOPS_ONLY });
+    getSpy.mockResolvedValue({ data: MOCK_TICKETS_RAW_WITH_STOPS_ONLY });
     const { updateStopNumber } = useStopNumberFilter();
     const wrapper = mount(TicketPage);
     await flushPromises();

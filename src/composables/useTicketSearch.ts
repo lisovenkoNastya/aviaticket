@@ -1,10 +1,10 @@
 import { DeepReadonly, readonly, Ref, ref, watchEffect } from 'vue';
 import { ControlOption } from '@/interfaces/ControlOption';
 import { TicketDirection, TicketDates } from '@/interfaces/TicketSearch';
-import { CityCode } from '@/interfaces/CityCode';
+import { CITY_CODES } from '@/constants/cityCode';
 import isBefore from 'date-fns/isBefore';
 
-const directionOptions: ControlOption[] = Object.keys(CityCode).map((code) => ({
+const directionOptions: ControlOption[] = CITY_CODES.map((code) => ({
   text: code,
   value: code,
 }));

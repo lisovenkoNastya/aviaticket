@@ -1,4 +1,4 @@
-import { ref, Ref, readonly, DeepReadonly, computed } from 'vue';
+import { ref, Ref, readonly, DeepReadonly, watch } from 'vue';
 import { ticketMachine, ticketMachineService } from '@/machines/ticketMachine';
 import { Ticket } from '@/interfaces/Ticket';
 import { TicketSortingMode } from '@/interfaces/TicketSortingMode';
@@ -41,20 +41,48 @@ const useTickets = ({
   loadTickets: () => Promise<void>;
   state: DeepReadonly<Ref<StateValue>>;
 } => {
-  const ticketsFound = computed(() =>
-    ticketService.findTickets(tickets.value, { dates: dates.value, direction: direction.value }),
+  const ticketsFound: Ref<Ticket[]> = ref([]);
+  const ticketsFiltered: Ref<Ticket[]> = ref([]);
+  const ticketsSorted: Ref<Ticket[]> = ref([]);
+  const ticketsPaginated: Ref<Ticket[]> = ref([]);
+
+  watch(
+    [direction, dates, tickets],
+    () => {
+      const findResult = ticketService.findTickets(tickets.value, { dates: dates.value, direction: direction.value });
+      ticketsFound.value = [...findResult];
+    },
+    { immediate: true },
   );
 
-  const ticketsFiltered = computed(() =>
-    ticketService.filterTickets(ticketsFound.value, {
-      stopNumbers: [...stopNumbers.value],
-      company: company.value,
-    }),
+  watch(
+    [stopNumbers, company, ticketsFound],
+    () => {
+      const filterResult = ticketService.filterTickets(ticketsFound.value, {
+        stopNumbers: [...stopNumbers.value],
+        company: company.value,
+      });
+      ticketsFiltered.value = [...filterResult];
+    },
+    { immediate: true },
   );
 
-  const ticketsSorted = computed(() => ticketService.sortTickets(ticketsFiltered.value, sorting.value));
+  watch(
+    [sorting, ticketsFiltered],
+    () => {
+      const sortingResult = ticketService.sortTickets(ticketsFiltered.value, sorting.value);
+      ticketsSorted.value = [...sortingResult];
+    },
+    { immediate: true },
+  );
 
-  const ticketsPaginated = computed(() => ticketsSorted.value.slice(0, count.value));
+  watch(
+    [count, ticketsSorted],
+    () => {
+      ticketsPaginated.value = ticketService.paginateTickets(ticketsSorted.value, count.value);
+    },
+    { immediate: true },
+  );
 
   const updateTickets = (newTickets: Ticket[]) => {
     tickets.value = newTickets;

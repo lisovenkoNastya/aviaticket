@@ -91,6 +91,8 @@ const sortTickets = (tickets: Ticket[], mode: TicketSortingMode): Ticket[] => {
   throw new Error('there is no such sorting mode');
 };
 
+const paginateTickets = (tickets: Ticket[], count: number): Ticket[] => tickets.slice(0, count);
+
 const loadTickets = async (): Promise<Ticket[]> => {
   ticketMachineService.send('LOAD_DATA');
   try {
@@ -113,4 +115,4 @@ const loadTickets = async (): Promise<Ticket[]> => {
   }
 };
 
-export default { findTickets, filterTickets, sortTickets, loadTickets, getSuitableTickets };
+export default { findTickets, filterTickets, sortTickets, loadTickets, getSuitableTickets, paginateTickets };

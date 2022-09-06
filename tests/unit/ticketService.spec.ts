@@ -34,8 +34,8 @@ describe('filterTickets', () => {
       back: new Date('2022-08-09'),
     };
     const direction: TicketDirection = {
-      from: 'MOW' as CityCode,
-      to: 'ARH' as CityCode,
+      from: 'MOW',
+      to: 'ARH',
     };
     const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
     expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ARH_108_908);
@@ -47,8 +47,8 @@ describe('filterTickets', () => {
       back: new Date('2022-08-09'),
     };
     const direction: TicketDirection = {
-      from: 'MOW' as CityCode,
-      to: 'ARH' as CityCode,
+      from: 'MOW',
+      to: 'ARH',
     };
     const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
     expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ARH_ANY_908);
@@ -60,8 +60,8 @@ describe('filterTickets', () => {
       back: undefined,
     };
     const direction: TicketDirection = {
-      from: 'MOW' as CityCode,
-      to: 'ARH' as CityCode,
+      from: 'MOW',
+      to: 'ARH',
     };
     const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
     expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ARH_108_ANY);
@@ -73,7 +73,7 @@ describe('filterTickets', () => {
       back: new Date('2022-08-09'),
     };
     const direction: TicketDirection = {
-      from: 'MOW' as CityCode,
+      from: 'MOW',
       to: undefined,
     };
     const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
@@ -112,8 +112,8 @@ describe('filterTickets', () => {
       back: new Date('2022-08-09'),
     };
     const direction: TicketDirection = {
-      from: 'JNB' as CityCode,
-      to: 'MOW' as CityCode,
+      from: 'JNB',
+      to: 'MOW',
     };
     const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
     expect(ticketsFound).toEqual([]);

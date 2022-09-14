@@ -1,5 +1,5 @@
 
-@import './variables.scss';
+@import '@/styles/variables.scss';
 @import 'basscss-sass/scss/_layout';
 @import 'basscss-sass/scss/_grid';
 @import 'basscss-sass/scss/_margin';
@@ -8,8 +8,8 @@
 @import 'basscss-sass/scss/_typography';
 @import 'basscss-sass/scss/_border';
 @import 'basscss-sass/scss/_flexbox';
-@import './partials/typography.scss';
-@import './partials/shadows.scss';
+@import '@/styles/partials/typography.scss';
+@import '@/styles/partials/shadows.scss';
 @import '~@mdi/font/css/materialdesignicons.css';
 
 html, body {

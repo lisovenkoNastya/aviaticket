@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { defineProps, toRefs, defineEmits } from 'vue';
-import AppInput from './AppInput.vue';
+import AppInput from '@/components/ui/AppInput.vue';
 
 type InputType = 'email' | 'hidden' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'time' | 'url';
 

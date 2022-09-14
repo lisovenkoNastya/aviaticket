@@ -1,7 +1,7 @@
 import { ref, Ref, readonly, DeepReadonly, computed, ComputedRef } from 'vue';
 import { FilterParam } from '@/interfaces/FilterParams';
 import { ControlOption } from '@/interfaces/ControlOption';
-import useCompanies from './useCompanies';
+import useCompanies from '@/composables/useCompanies';
 
 const { companies } = useCompanies();
 const companyOptions: ComputedRef<ControlOption[]> = computed(() => [

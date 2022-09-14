@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import TicketSearchDirection from './TicketSearchDirection.vue';
-import TicketSearchDates from './TicketSearchDates.vue';
+import TicketSearchDirection from '@/components/tickets/TicketSearchDirection.vue';
+import TicketSearchDates from '@/components/tickets/TicketSearchDates.vue';
 </script>
 
 <style scoped lang="scss">

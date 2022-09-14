@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import TicketPage from '../views/TicketPage.vue';
+import TicketPage from '@/views/TicketPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {

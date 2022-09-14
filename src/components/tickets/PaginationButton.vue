@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, toRefs } from 'vue';
-import AppButton from '../ui/AppButton.vue';
+import AppButton from '@/components/ui/AppButton.vue';
 
 interface PaginationButtonProps {
   modelValue: number;

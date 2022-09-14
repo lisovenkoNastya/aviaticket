@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import useTicketSearch from '@/composables/useTicketSearch';
-import AppDatepicker from '../ui/AppDatepicker.vue';
+import AppDatepicker from '@/components/ui/AppDatepicker.vue';
 
 const { datesSelected, updateDates } = useTicketSearch();
 

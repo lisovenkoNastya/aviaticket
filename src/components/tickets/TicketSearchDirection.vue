@@ -27,8 +27,8 @@ import { computed, ComputedRef } from 'vue';
 import useTicketSearch from '@/composables/useTicketSearch';
 import { CityCode } from '@/interfaces/CityCode';
 import { ControlOption } from '@/interfaces/ControlOption';
-import AppSelect from '../ui/AppSelect.vue';
-import AppButton from '../ui/AppButton.vue';
+import AppSelect from '@/components/ui/AppSelect.vue';
+import AppButton from '@/components/ui/AppButton.vue';
 
 const { directionOptions, directionSelected, updateDirection } = useTicketSearch();
 

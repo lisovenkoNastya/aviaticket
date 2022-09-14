@@ -25,7 +25,7 @@
 import { defineProps, toRefs, defineEmits } from 'vue';
 import { ru } from 'date-fns/locale';
 import Datepicker from 'vue3-datepicker';
-import AppInput from './AppInput.vue';
+import AppInput from '@/components/ui/AppInput.vue';
 
 interface AppInputProps {
   name?: string;

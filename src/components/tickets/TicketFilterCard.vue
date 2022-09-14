@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { defineProps, toRefs } from 'vue';
-import AppSheet from '../ui/AppSheet.vue';
+import AppSheet from '@/components/ui/AppSheet.vue';
 
 interface TicketFilterCardProps {
   title: string;

@@ -1,4 +1,4 @@
-import { CityCode } from './CityCode';
+import { CityCode } from '@/interfaces/CityCode';
 
 export interface TicketRaw {
   id: string;

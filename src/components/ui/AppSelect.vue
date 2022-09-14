@@ -33,9 +33,9 @@
 <script setup lang="ts">
 import { defineProps, toRefs, defineEmits, computed, ComputedRef, ref, Ref, onBeforeUnmount } from 'vue';
 import { ControlOption } from '@/interfaces/ControlOption';
-import AppInput from './AppInput.vue';
-import AppList from './AppList.vue';
-import AppListItem from './AppListItem.vue';
+import AppInput from '@/components/ui/AppInput.vue';
+import AppList from '@/components/ui/AppList.vue';
+import AppListItem from '@/components/ui/AppListItem.vue';
 
 interface AppSelectProps {
   name?: string;

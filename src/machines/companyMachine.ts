@@ -1,5 +1,5 @@
 import { createMachine, interpret } from 'xstate';
-import { DATA_MACHINE_STATES } from './constants/dataMachineStates';
+import { DATA_MACHINE_STATES } from '@/machines/constants/dataMachineStates';
 
 export const companyMachine = createMachine({
   id: 'companyMachine',

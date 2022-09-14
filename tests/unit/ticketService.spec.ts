@@ -1,6 +1,5 @@
 import ticketService from '@/services/ticketService';
 import { TicketDates, TicketDirection } from '@/interfaces/TicketSearch';
-import { CityCode } from '@/interfaces/CityCode';
 import { Ticket } from '@/interfaces/Ticket';
 import {
   MOCK_TICKETS,
@@ -9,7 +8,7 @@ import {
   MOCK_TICKETS_MOW_ARH_108_ANY,
   MOCK_TICKETS_MOW_ANYWHERE_108_ANY,
   MOCK_TICKETS_ANYWHERE_108_ANY,
-} from './mocks/mockTickets';
+} from '@tests/unit/mocks/mockTickets';
 
 describe('filterTickets', () => {
   const getSuitableTickets = jest.fn();

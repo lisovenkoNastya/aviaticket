@@ -5,7 +5,7 @@ import PaginationButton from '@/components/tickets/PaginationButton.vue';
 import httpClient from '@/api/httpClient';
 import { ticketMachineService } from '@/machines/ticketMachine';
 import useStopNumberFilter from '@/composables/useStopNumberFilter';
-import { MOCK_TICKETS_RAW_WITH_STOPS_ONLY } from './mocks/mockTickets';
+import { MOCK_TICKETS_RAW_WITH_STOPS_ONLY } from '@tests/unit/mocks/mockTickets';
 
 describe('TicketPage', () => {
   const getSpy = jest.spyOn(httpClient, 'get');

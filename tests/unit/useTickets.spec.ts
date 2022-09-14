@@ -7,11 +7,10 @@ import useCompanyFilter from '@/composables/useCompanyFilter';
 import useTicketSearch from '@/composables/useTicketSearch';
 import useTicketSorting from '@/composables/useTicketSorting';
 import ticketService from '@/services/ticketService';
-import { CityCode } from '@/interfaces/CityCode';
 import { ticketMachineService } from '@/machines/ticketMachine';
 import { mount } from 'vue-composable-tester';
 import { flushPromises } from '@vue/test-utils';
-import { MOCK_TICKETS } from './mocks/mockTickets';
+import { MOCK_TICKETS } from '@tests/unit/mocks/mockTickets';
 
 const TICKET_COUNT_DEFAULT = 5;
 

@@ -10,10 +10,10 @@
           <template v-if="state === 'loading'">loading...</template>
           <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
           <template v-if="state === 'ready'">
-            <template v-if="ticketsFiltered.length > 0">
-              <TicketCard v-for="ticket in ticketsPaginated" :key="ticket.id" :ticket-data="ticket" class="mb2" />
+            <template v-if="filteredTickets.length > 0">
+              <TicketCard v-for="ticket in paginatedTickets" :key="ticket.id" :ticket-data="ticket" class="mb2" />
               <PaginationButton
-                v-if="ticketsFiltered.length > ticketCount"
+                v-if="filteredTickets.length > ticketCount"
                 v-model:shown-items-count="ticketCount"
                 :items-per-page="TICKET_COUNT_DEFAULT"
                 class="block"
@@ -51,20 +51,20 @@ const TICKET_COUNT_DEFAULT = 5;
 
 const { stopNumberSelected } = useStopNumberFilter();
 const { companySelected } = useCompanyFilter();
-const { directionSelected, datesSelected } = useTicketSearch();
+const { selectedDirection, selectedDates } = useTicketSearch();
 const { sortingMode } = useTicketSorting();
 const ticketCount: Ref<number> = ref(TICKET_COUNT_DEFAULT);
 
-const { ticketsFiltered, ticketsPaginated, state } = useTickets({
+const { filteredTickets, paginatedTickets, state } = useTickets({
   stopNumbers: stopNumberSelected,
   company: companySelected,
-  direction: directionSelected,
-  dates: datesSelected,
+  direction: selectedDirection,
+  dates: selectedDates,
   sorting: sortingMode,
   count: readonly(ticketCount),
 });
 
-watch([stopNumberSelected, companySelected, directionSelected, datesSelected, sortingMode], () => {
+watch([stopNumberSelected, companySelected, selectedDirection, selectedDates, sortingMode], () => {
   ticketCount.value = TICKET_COUNT_DEFAULT;
 });
 </script>

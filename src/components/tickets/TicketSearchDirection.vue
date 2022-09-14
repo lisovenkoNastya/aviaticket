@@ -3,7 +3,7 @@
     <AppSelect
       class="ticket-search-direction__input shadow-3"
       placeholder="Откуда"
-      :model-value="directionSelected.from"
+      :model-value="selectedDirection.from"
       :options="directionOptionsFrom"
       @update:model-value="updateDirectionFrom"
       clearable
@@ -11,7 +11,7 @@
     <AppSelect
       class="ticket-search-direction__input shadow-3"
       placeholder="Куда"
-      :model-value="directionSelected.to"
+      :model-value="selectedDirection.to"
       :options="directionOptionsTo"
       @update:model-value="updateDirectionTo"
       clearable
@@ -29,19 +29,19 @@ import { ControlOption } from '@/interfaces/ControlOption';
 import AppSelect from '@/components/ui/AppSelect.vue';
 import AppButton from '@/components/ui/AppButton.vue';
 
-const { directionOptions, directionSelected, updateDirectionFrom, updateDirectionTo } = useTicketSearch();
+const { directionOptions, selectedDirection, updateDirectionFrom, updateDirectionTo } = useTicketSearch();
 
 const directionOptionsFrom: ComputedRef<ControlOption[]> = computed(() =>
-  directionOptions.map((option) => ({ ...option, disabled: option.value === directionSelected.value.to })),
+  directionOptions.map((option) => ({ ...option, disabled: option.value === selectedDirection.value.to })),
 );
 const directionOptionsTo: ComputedRef<ControlOption[]> = computed(() =>
-  directionOptions.map((option) => ({ ...option, disabled: option.value === directionSelected.value.from })),
+  directionOptions.map((option) => ({ ...option, disabled: option.value === selectedDirection.value.from })),
 );
 
 function swap() {
-  const directionSelectedCopy = { ...directionSelected.value };
-  if (directionSelectedCopy.to) updateDirectionFrom(directionSelectedCopy.to);
-  if (directionSelectedCopy.from) updateDirectionTo(directionSelectedCopy.from);
+  const selectedDirectionCopy = { ...selectedDirection.value };
+  if (selectedDirectionCopy.to) updateDirectionFrom(selectedDirectionCopy.to);
+  if (selectedDirectionCopy.from) updateDirectionTo(selectedDirectionCopy.from);
 }
 </script>
 

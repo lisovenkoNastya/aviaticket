@@ -3,17 +3,17 @@
     <AppDatepicker
       class="ticket-search-dates__control shadow-3"
       placeholder="Когда"
-      :model-value="datesSelected.there"
+      :model-value="selectedDates.there"
       @update:model-value="updateDateThere"
       clearable
     ></AppDatepicker>
     <AppDatepicker
       class="ticket-search-dates__control shadow-3"
-      :model-value="datesSelected.back"
+      :model-value="selectedDates.back"
       placeholder="Обратно"
       @update:model-value="updateDateBack"
       clearable
-      :lower-limit="datesSelected.there"
+      :lower-limit="selectedDates.there"
     ></AppDatepicker>
   </div>
 </template>
@@ -22,7 +22,7 @@
 import useTicketSearch from '@/composables/useTicketSearch';
 import AppDatepicker from '@/components/ui/AppDatepicker.vue';
 
-const { datesSelected, updateDateBack, updateDateThere } = useTicketSearch();
+const { selectedDates, updateDateBack, updateDateThere } = useTicketSearch();
 </script>
 
 <style scoped lang="scss">

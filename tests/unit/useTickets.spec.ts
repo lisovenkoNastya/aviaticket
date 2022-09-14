@@ -17,8 +17,8 @@ const TICKET_COUNT_DEFAULT = 5;
 const { stopNumberSelected, updateStopNumber } = useStopNumberFilter();
 const { companySelected } = useCompanyFilter();
 const {
-  directionSelected,
-  datesSelected,
+  selectedDirection,
+  selectedDates,
   updateDirectionFrom,
   updateDirectionTo,
   clearDirectionFrom,
@@ -30,8 +30,8 @@ const ticketCount = ref(TICKET_COUNT_DEFAULT);
 const useTicketsParams = {
   stopNumbers: stopNumberSelected,
   company: companySelected,
-  direction: directionSelected,
-  dates: datesSelected,
+  direction: selectedDirection,
+  dates: selectedDates,
   sorting: sortingMode,
   count: readonly(ticketCount),
 };
@@ -88,7 +88,7 @@ describe('useTickets', () => {
     resetTicketComposable(unmount2, ticketsComposable2.updateTickets);
   });
 
-  test('ticketsFound, ticketsFiltered, ticketsSorted, ticketsPaginated should be calculated if direction is changed', async () => {
+  test('foundTickets, filteredTickets, sortedTickets, paginatedTickets should be calculated if direction is changed', async () => {
     mockLoadTickets.mockResolvedValueOnce(MOCK_TICKETS as Ticket[]);
     const { result: ticketComposable, unmount } = mount(() => useTickets(useTicketsParams));
 
@@ -118,7 +118,7 @@ describe('useTickets', () => {
     resetTicketComposable(unmount, ticketComposable.updateTickets);
   });
 
-  test('ticketsFiltered, ticketsSorted, ticketsPaginated should be calculated if stopNumbers is changed, ticketsFound should not', async () => {
+  test('filteredTickets, sortedTickets, paginatedTickets should be calculated if stopNumbers is changed, foundTickets should not', async () => {
     mockLoadTickets.mockResolvedValueOnce(MOCK_TICKETS as Ticket[]);
     const { result: ticketComposable, unmount } = mount(() => useTickets(useTicketsParams));
 
@@ -149,7 +149,7 @@ describe('useTickets', () => {
     resetTicketComposable(unmount, ticketComposable.updateTickets);
   });
 
-  test('ticketsSorted, ticketsPaginated should be calculated if sorting is changed, ticketsFound and ticketsFiltered should not', async () => {
+  test('sortedTickets, paginatedTickets should be calculated if sorting is changed, foundTickets and filteredTickets should not', async () => {
     mockLoadTickets.mockResolvedValueOnce(MOCK_TICKETS as Ticket[]);
     const { result: ticketComposable, unmount } = mount(() => useTickets(useTicketsParams));
 
@@ -179,7 +179,7 @@ describe('useTickets', () => {
     resetTicketComposable(unmount, ticketComposable.updateTickets);
   });
 
-  test('ticketsPaginated should be calculated if ticketCount is changed, ticketsFound, ticketsFiltered and ticketSorted should not', async () => {
+  test('paginatedTickets should be calculated if ticketCount is changed, foundTickets, filteredTickets and ticketSorted should not', async () => {
     mockLoadTickets.mockResolvedValueOnce(MOCK_TICKETS as Ticket[]);
     const { result: ticketComposable, unmount } = mount(() => useTickets(useTicketsParams));
 

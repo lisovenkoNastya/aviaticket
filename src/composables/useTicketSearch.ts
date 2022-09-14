@@ -10,83 +10,83 @@ const directionOptions: ControlOption[] = CITY_CODES.map((code) => ({
   value: code,
 }));
 
-const directionSelected: Ref<TicketDirection> = ref({
+const selectedDirection: Ref<TicketDirection> = ref({
   from: undefined,
   to: undefined,
 });
-const datesSelected: Ref<TicketDates> = ref({
+const selectedDates: Ref<TicketDates> = ref({
   there: undefined,
   back: undefined,
 });
 
 const useTicketSearch = (): {
   directionOptions: ControlOption[];
-  directionSelected: DeepReadonly<Ref<TicketDirection>>;
+  selectedDirection: DeepReadonly<Ref<TicketDirection>>;
   updateDirectionFrom: (newDirectionFrom: CityCode) => void;
   updateDirectionTo: (newDirectionTo: CityCode) => void;
   clearDirectionFrom: () => void;
   clearDirectionTo: () => void;
-  datesSelected: DeepReadonly<Ref<TicketDates>>;
+  selectedDates: DeepReadonly<Ref<TicketDates>>;
   updateDateThere: (newDateThere: Date) => void;
   updateDateBack: (newDateBack: Date) => void;
   clearDateThere: () => void;
   clearDateBack: () => void;
 } => {
   function updateDirectionFrom(newDirectionFrom: CityCode) {
-    directionSelected.value = {
-      ...directionSelected.value,
+    selectedDirection.value = {
+      ...selectedDirection.value,
       from: newDirectionFrom,
     };
   }
   function updateDirectionTo(newDirectionTo: CityCode) {
-    directionSelected.value = {
-      ...directionSelected.value,
+    selectedDirection.value = {
+      ...selectedDirection.value,
       to: newDirectionTo,
     };
   }
   function clearDirectionFrom() {
-    directionSelected.value = {
-      ...directionSelected.value,
+    selectedDirection.value = {
+      ...selectedDirection.value,
       from: undefined,
     };
   }
   function clearDirectionTo() {
-    directionSelected.value = {
-      ...directionSelected.value,
+    selectedDirection.value = {
+      ...selectedDirection.value,
       to: undefined,
     };
   }
 
   function updateDateThere(newDateThere?: Date) {
-    datesSelected.value = {
-      ...datesSelected.value,
+    selectedDates.value = {
+      ...selectedDates.value,
       there: newDateThere,
     };
   }
   function updateDateBack(newDateBack?: Date) {
-    datesSelected.value = {
-      ...datesSelected.value,
+    selectedDates.value = {
+      ...selectedDates.value,
       back: newDateBack,
     };
   }
   function clearDateThere() {
-    datesSelected.value = {
-      ...datesSelected.value,
+    selectedDates.value = {
+      ...selectedDates.value,
       there: undefined,
     };
   }
   function clearDateBack() {
-    datesSelected.value = {
-      ...datesSelected.value,
+    selectedDates.value = {
+      ...selectedDates.value,
       back: undefined,
     };
   }
 
   watchEffect(() => {
     if (
-      datesSelected.value.back &&
-      datesSelected.value.there &&
-      isBefore(datesSelected.value.back, datesSelected.value.there)
+      selectedDates.value.back &&
+      selectedDates.value.there &&
+      isBefore(selectedDates.value.back, selectedDates.value.there)
     ) {
       clearDateBack();
     }
@@ -94,12 +94,12 @@ const useTicketSearch = (): {
 
   return {
     directionOptions,
-    directionSelected: readonly(directionSelected),
+    selectedDirection: readonly(selectedDirection),
     updateDirectionFrom,
     updateDirectionTo,
     clearDirectionFrom,
     clearDirectionTo,
-    datesSelected: readonly(datesSelected),
+    selectedDates: readonly(selectedDates),
     updateDateThere,
     updateDateBack,
     clearDateThere,

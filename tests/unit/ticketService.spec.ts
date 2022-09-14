@@ -22,9 +22,9 @@ describe('filterTickets', () => {
       from: undefined,
       to: undefined,
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
     expect(getSuitableTickets).toHaveBeenCalledTimes(0);
-    expect(ticketsFound).toEqual(MOCK_TICKETS);
+    expect(foundTickets).toEqual(MOCK_TICKETS);
   });
 
   test('Returns tickets from MOW to ARH for 1.08 and ARH to MOW for 9.08', () => {
@@ -36,8 +36,8 @@ describe('filterTickets', () => {
       from: 'MOW',
       to: 'ARH',
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ARH_108_908);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual(MOCK_TICKETS_MOW_ARH_108_908);
   });
 
   test('Returns tickets from MOW to ARH for any date and ARH to MOW for 9.08', () => {
@@ -49,8 +49,8 @@ describe('filterTickets', () => {
       from: 'MOW',
       to: 'ARH',
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ARH_ANY_908);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual(MOCK_TICKETS_MOW_ARH_ANY_908);
   });
 
   test('Returns tickets from MOW to ARH for 1.08, date back is undefined', () => {
@@ -62,8 +62,8 @@ describe('filterTickets', () => {
       from: 'MOW',
       to: 'ARH',
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ARH_108_ANY);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual(MOCK_TICKETS_MOW_ARH_108_ANY);
   });
 
   test('Returns all tickets from MOW for 1.08, date back is 9.08 but tickets back is not shown', () => {
@@ -75,8 +75,8 @@ describe('filterTickets', () => {
       from: 'MOW',
       to: undefined,
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual(MOCK_TICKETS_MOW_ANYWHERE_108_ANY);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual(MOCK_TICKETS_MOW_ANYWHERE_108_ANY);
   });
 
   test('Returns all tickets for 1.08, if only date there is set', () => {
@@ -88,8 +88,8 @@ describe('filterTickets', () => {
       from: undefined,
       to: undefined,
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual(MOCK_TICKETS_ANYWHERE_108_ANY);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual(MOCK_TICKETS_ANYWHERE_108_ANY);
   });
 
   test('Returns unchanged tickets if only date back is set', () => {
@@ -101,8 +101,8 @@ describe('filterTickets', () => {
       from: undefined,
       to: undefined,
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual(MOCK_TICKETS);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual(MOCK_TICKETS);
   });
 
   test('Returns empty array if nothing found', () => {
@@ -114,7 +114,7 @@ describe('filterTickets', () => {
       from: 'JNB',
       to: 'MOW',
     };
-    const ticketsFound = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(ticketsFound).toEqual([]);
+    const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
+    expect(foundTickets).toEqual([]);
   });
 });

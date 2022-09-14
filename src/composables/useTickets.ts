@@ -33,53 +33,53 @@ const useTickets = ({
   count,
 }: UseTicketsParams): {
   tickets: DeepReadonly<Ref<Ticket[]>>;
-  ticketsFound: DeepReadonly<Ref<Ticket[]>>;
-  ticketsFiltered: DeepReadonly<Ref<Ticket[]>>;
-  ticketsSorted: DeepReadonly<Ref<Ticket[]>>;
-  ticketsPaginated: DeepReadonly<Ref<Ticket[]>>;
+  foundTickets: DeepReadonly<Ref<Ticket[]>>;
+  filteredTickets: DeepReadonly<Ref<Ticket[]>>;
+  sortedTickets: DeepReadonly<Ref<Ticket[]>>;
+  paginatedTickets: DeepReadonly<Ref<Ticket[]>>;
   updateTickets: (newTicket: Ticket[]) => void;
   loadTickets: () => Promise<void>;
   state: DeepReadonly<Ref<StateValue>>;
 } => {
-  const ticketsFound: Ref<Ticket[]> = ref([]);
-  const ticketsFiltered: Ref<Ticket[]> = ref([]);
-  const ticketsSorted: Ref<Ticket[]> = ref([]);
-  const ticketsPaginated: Ref<Ticket[]> = ref([]);
+  const foundTickets: Ref<Ticket[]> = ref([]);
+  const filteredTickets: Ref<Ticket[]> = ref([]);
+  const sortedTickets: Ref<Ticket[]> = ref([]);
+  const paginatedTickets: Ref<Ticket[]> = ref([]);
 
   watch(
     [direction, dates, tickets],
     () => {
       const findResult = ticketService.findTickets(tickets.value, { dates: dates.value, direction: direction.value });
-      ticketsFound.value = [...findResult];
+      foundTickets.value = [...findResult];
     },
     { immediate: true },
   );
 
   watch(
-    [stopNumbers, company, ticketsFound],
+    [stopNumbers, company, foundTickets],
     () => {
-      const filterResult = ticketService.filterTickets(ticketsFound.value, {
+      const filterResult = ticketService.filterTickets(foundTickets.value, {
         stopNumbers: [...stopNumbers.value],
         company: company.value,
       });
-      ticketsFiltered.value = [...filterResult];
+      filteredTickets.value = [...filterResult];
     },
     { immediate: true },
   );
 
   watch(
-    [sorting, ticketsFiltered],
+    [sorting, filteredTickets],
     () => {
-      const sortingResult = ticketService.sortTickets(ticketsFiltered.value, sorting.value);
-      ticketsSorted.value = [...sortingResult];
+      const sortingResult = ticketService.sortTickets(filteredTickets.value, sorting.value);
+      sortedTickets.value = [...sortingResult];
     },
     { immediate: true },
   );
 
   watch(
-    [count, ticketsSorted],
+    [count, sortedTickets],
     () => {
-      ticketsPaginated.value = ticketService.paginateTickets(ticketsSorted.value, count.value);
+      paginatedTickets.value = ticketService.paginateTickets(sortedTickets.value, count.value);
     },
     { immediate: true },
   );
@@ -102,10 +102,10 @@ const useTickets = ({
 
   return {
     tickets: readonly(tickets),
-    ticketsFound: readonly(ticketsFound),
-    ticketsFiltered: readonly(ticketsFiltered),
-    ticketsSorted: readonly(ticketsSorted),
-    ticketsPaginated: readonly(ticketsPaginated),
+    foundTickets: readonly(foundTickets),
+    filteredTickets: readonly(filteredTickets),
+    sortedTickets: readonly(sortedTickets),
+    paginatedTickets: readonly(paginatedTickets),
     updateTickets,
     loadTickets,
     state: readonly(state),

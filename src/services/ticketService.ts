@@ -11,12 +11,11 @@ const getSuitableTickets = (
   { dateThere, directionFrom, directionTo }: { dateThere?: Date; directionFrom?: CityCode; directionTo?: CityCode },
 ): Ticket[] =>
   tickets.filter((ticket) => {
-    let isSuitable = true;
     const { origin, destination, dateStart } = ticket.info;
-    if (isSuitable && directionFrom) isSuitable = origin === directionFrom;
-    if (isSuitable && directionTo) isSuitable = destination === directionTo;
-    if (isSuitable && dateThere) isSuitable = isSameDay(dateStart, dateThere);
-    return isSuitable;
+    if (directionFrom && origin !== directionFrom) return false;
+    if (directionTo && destination !== directionTo) return false;
+    if (dateThere && !isSameDay(dateStart, dateThere)) return false;
+    return true;
   });
 
 const findTickets = (

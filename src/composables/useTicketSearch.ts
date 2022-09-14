@@ -23,13 +23,38 @@ const useTicketSearch = (): {
   directionSelected: DeepReadonly<Ref<TicketDirection>>;
   updateDirection: (newDirection: TicketDirection) => void;
   datesSelected: DeepReadonly<Ref<TicketDates>>;
-  updateDates: (newDates: TicketDates) => void;
+  updateDateThere: (newDateThere: Date) => void;
+  updateDateBack: (newDateBack: Date) => void;
+  clearDateThere: () => void;
+  clearDateBack: () => void;
 } => {
   function updateDirection(newDirection: TicketDirection) {
     directionSelected.value = newDirection;
   }
-  function updateDates(newDates: TicketDates) {
-    datesSelected.value = newDates;
+
+  function updateDateThere(newDateThere?: Date) {
+    datesSelected.value = {
+      ...datesSelected.value,
+      there: newDateThere,
+    };
+  }
+  function updateDateBack(newDateBack?: Date) {
+    datesSelected.value = {
+      ...datesSelected.value,
+      back: newDateBack,
+    };
+  }
+  function clearDateThere() {
+    datesSelected.value = {
+      ...datesSelected.value,
+      there: undefined,
+    };
+  }
+  function clearDateBack() {
+    datesSelected.value = {
+      ...datesSelected.value,
+      back: undefined,
+    };
   }
 
   watchEffect(() => {
@@ -38,10 +63,7 @@ const useTicketSearch = (): {
       datesSelected.value.there &&
       isBefore(datesSelected.value.back, datesSelected.value.there)
     ) {
-      updateDates({
-        ...datesSelected.value,
-        back: undefined,
-      });
+      clearDateBack();
     }
   });
 
@@ -50,7 +72,10 @@ const useTicketSearch = (): {
     directionSelected: readonly(directionSelected),
     updateDirection,
     datesSelected: readonly(datesSelected),
-    updateDates,
+    updateDateThere,
+    updateDateBack,
+    clearDateThere,
+    clearDateBack,
   };
 };
 

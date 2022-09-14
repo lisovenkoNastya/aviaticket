@@ -5,7 +5,7 @@
       placeholder="Откуда"
       :model-value="directionSelected.from"
       :options="directionOptionsFrom"
-      @update:model-value="updateValue('from', $event)"
+      @update:model-value="updateDirectionFrom"
       clearable
     ></AppSelect>
     <AppSelect
@@ -13,7 +13,7 @@
       placeholder="Куда"
       :model-value="directionSelected.to"
       :options="directionOptionsTo"
-      @update:model-value="updateValue('to', $event)"
+      @update:model-value="updateDirectionTo"
       clearable
     ></AppSelect>
     <AppButton class="ticket-search-direction__swap shadow-3" @click="swap">
@@ -25,12 +25,11 @@
 <script setup lang="ts">
 import { computed, ComputedRef } from 'vue';
 import useTicketSearch from '@/composables/useTicketSearch';
-import { CityCode } from '@/interfaces/CityCode';
 import { ControlOption } from '@/interfaces/ControlOption';
 import AppSelect from '@/components/ui/AppSelect.vue';
 import AppButton from '@/components/ui/AppButton.vue';
 
-const { directionOptions, directionSelected, updateDirection } = useTicketSearch();
+const { directionOptions, directionSelected, updateDirectionFrom, updateDirectionTo } = useTicketSearch();
 
 const directionOptionsFrom: ComputedRef<ControlOption[]> = computed(() =>
   directionOptions.map((option) => ({ ...option, disabled: option.value === directionSelected.value.to })),
@@ -40,17 +39,9 @@ const directionOptionsTo: ComputedRef<ControlOption[]> = computed(() =>
 );
 
 function swap() {
-  updateDirection({
-    from: directionSelected.value.to,
-    to: directionSelected.value.from,
-  });
-}
-
-function updateValue(key: 'from' | 'to', newValue: CityCode) {
-  updateDirection({
-    ...directionSelected.value,
-    [key]: newValue,
-  });
+  const directionSelectedCopy = { ...directionSelected.value };
+  if (directionSelectedCopy.to) updateDirectionFrom(directionSelectedCopy.to);
+  if (directionSelectedCopy.from) updateDirectionTo(directionSelectedCopy.from);
 }
 </script>
 

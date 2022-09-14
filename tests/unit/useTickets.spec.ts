@@ -16,7 +16,14 @@ const TICKET_COUNT_DEFAULT = 5;
 
 const { stopNumberSelected, updateStopNumber } = useStopNumberFilter();
 const { companySelected } = useCompanyFilter();
-const { directionSelected, datesSelected, updateDirection } = useTicketSearch();
+const {
+  directionSelected,
+  datesSelected,
+  updateDirectionFrom,
+  updateDirectionTo,
+  clearDirectionFrom,
+  clearDirectionTo,
+} = useTicketSearch();
 const { sortingMode, updateSortingMode } = useTicketSorting();
 const ticketCount = ref(TICKET_COUNT_DEFAULT);
 
@@ -42,10 +49,8 @@ describe('useTickets', () => {
   const mockLoadTickets = jest.spyOn(ticketService, 'loadTickets');
 
   afterEach(async () => {
-    updateDirection({
-      from: undefined,
-      to: undefined,
-    });
+    clearDirectionFrom();
+    clearDirectionTo();
     updateStopNumber([]);
     updateSortingMode('cheapest');
     ticketCount.value = TICKET_COUNT_DEFAULT;
@@ -101,10 +106,8 @@ describe('useTickets', () => {
     expect(mockSortTickets).toHaveBeenCalledTimes(2);
     expect(mockPaginateTickets).toHaveBeenCalledTimes(2);
 
-    updateDirection({
-      from: 'MOW',
-      to: 'ARH',
-    });
+    updateDirectionFrom('MOW');
+    updateDirectionTo('ARH');
     await nextTick();
 
     // filter tickets when direction have been changed

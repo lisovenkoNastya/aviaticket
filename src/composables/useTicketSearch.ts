@@ -3,6 +3,7 @@ import { ControlOption } from '@/interfaces/ControlOption';
 import { TicketDirection, TicketDates } from '@/interfaces/TicketSearch';
 import { CITY_CODES } from '@/constants/cityCode';
 import isBefore from 'date-fns/isBefore';
+import { CityCode } from '@/interfaces/CityCode';
 
 const directionOptions: ControlOption[] = CITY_CODES.map((code) => ({
   text: code,
@@ -21,15 +22,39 @@ const datesSelected: Ref<TicketDates> = ref({
 const useTicketSearch = (): {
   directionOptions: ControlOption[];
   directionSelected: DeepReadonly<Ref<TicketDirection>>;
-  updateDirection: (newDirection: TicketDirection) => void;
+  updateDirectionFrom: (newDirectionFrom: CityCode) => void;
+  updateDirectionTo: (newDirectionTo: CityCode) => void;
+  clearDirectionFrom: () => void;
+  clearDirectionTo: () => void;
   datesSelected: DeepReadonly<Ref<TicketDates>>;
   updateDateThere: (newDateThere: Date) => void;
   updateDateBack: (newDateBack: Date) => void;
   clearDateThere: () => void;
   clearDateBack: () => void;
 } => {
-  function updateDirection(newDirection: TicketDirection) {
-    directionSelected.value = newDirection;
+  function updateDirectionFrom(newDirectionFrom: CityCode) {
+    directionSelected.value = {
+      ...directionSelected.value,
+      from: newDirectionFrom,
+    };
+  }
+  function updateDirectionTo(newDirectionTo: CityCode) {
+    directionSelected.value = {
+      ...directionSelected.value,
+      to: newDirectionTo,
+    };
+  }
+  function clearDirectionFrom() {
+    directionSelected.value = {
+      ...directionSelected.value,
+      from: undefined,
+    };
+  }
+  function clearDirectionTo() {
+    directionSelected.value = {
+      ...directionSelected.value,
+      to: undefined,
+    };
   }
 
   function updateDateThere(newDateThere?: Date) {
@@ -70,7 +95,10 @@ const useTicketSearch = (): {
   return {
     directionOptions,
     directionSelected: readonly(directionSelected),
-    updateDirection,
+    updateDirectionFrom,
+    updateDirectionTo,
+    clearDirectionFrom,
+    clearDirectionTo,
     datesSelected: readonly(datesSelected),
     updateDateThere,
     updateDateBack,

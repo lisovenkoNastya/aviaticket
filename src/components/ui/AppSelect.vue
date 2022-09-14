@@ -4,7 +4,7 @@
       :name="name"
       :value="modelValueText"
       :placeholder="placeholder"
-      :disabled="!!disabled"
+      :disabled="!!isDisabled"
       readonly
       @focus="showDropdown"
       @click.stop
@@ -13,17 +13,17 @@
       <AppList>
         <AppListItem
           class="app-select__option cursor-pointer"
-          :class="{ selected: modelValue === option.value, disabled: option.disabled }"
+          :class="{ selected: modelValue === option.value, disabled: option.isDisabled }"
           v-for="option in options"
           :key="option.value"
-          @click="!option.disabled && updateValue(option.value)"
+          @click="!option.isDisabled && updateValue(option.value)"
         >
           {{ option.text }}
         </AppListItem>
       </AppList>
     </div>
     <span
-      v-if="clearable && !!modelValue"
+      v-if="isClearable && !!modelValue"
       class="app-select__close mdi mdi-close cursor-pointer"
       @click="clearValue"
     ></span>
@@ -40,14 +40,14 @@ import AppListItem from '@/components/ui/AppListItem.vue';
 interface AppSelectProps {
   name?: string;
   placeholder?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   modelValue?: string | number;
   options: ControlOption[];
-  clearable?: boolean;
+  isClearable?: boolean;
 }
 
 const props = defineProps<AppSelectProps>();
-const { name, placeholder, disabled, modelValue, options, clearable = false } = toRefs(props);
+const { name, placeholder, isDisabled, modelValue, options, isClearable = false } = toRefs(props);
 
 const emit = defineEmits(['update:modelValue']);
 

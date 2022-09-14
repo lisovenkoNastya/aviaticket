@@ -39,10 +39,10 @@ const {
 } = useTicketSearch();
 
 const directionOptionsFrom: ComputedRef<ControlOption[]> = computed(() =>
-  directionOptions.map((option) => ({ ...option, disabled: option.value === selectedDirection.value.to })),
+  directionOptions.map((option) => ({ ...option, isDisabled: option.value === selectedDirection.value.to })),
 );
 const directionOptionsTo: ComputedRef<ControlOption[]> = computed(() =>
-  directionOptions.map((option) => ({ ...option, disabled: option.value === selectedDirection.value.from })),
+  directionOptions.map((option) => ({ ...option, isDisabled: option.value === selectedDirection.value.from })),
 );
 
 function swap() {

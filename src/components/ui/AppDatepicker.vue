@@ -9,12 +9,12 @@
       input-format="d MMMM, EEEEEE"
       :model-value="modelValue"
       @update:model-value="updateValue"
-      :disabled="disabled"
+      :disabled="isDisabled"
       v-bind="$attrs"
     />
     <span class="app-datepicker__icon mdi mdi-calendar-today"></span>
     <span
-      v-if="clearable && !!modelValue"
+      v-if="isClearable && !!modelValue"
       class="app-datepicker__close mdi mdi-close cursor-pointer"
       @click="clearValue"
     ></span>
@@ -30,13 +30,13 @@ import AppInput from '@/components/ui/AppInput.vue';
 interface AppInputProps {
   name?: string;
   placeholder?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   modelValue?: Date;
-  clearable?: boolean;
+  isClearable?: boolean;
 }
 
 const props = defineProps<AppInputProps>();
-const { name, placeholder, modelValue, disabled, clearable = false } = toRefs(props);
+const { name, placeholder, modelValue, isDisabled, isClearable = false } = toRefs(props);
 const emit = defineEmits(['update:modelValue']);
 
 function updateValue(value: Date) {

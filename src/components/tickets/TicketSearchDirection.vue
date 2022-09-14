@@ -29,7 +29,14 @@ import { ControlOption } from '@/interfaces/ControlOption';
 import AppSelect from '@/components/ui/AppSelect.vue';
 import AppButton from '@/components/ui/AppButton.vue';
 
-const { directionOptions, selectedDirection, updateDirectionFrom, updateDirectionTo } = useTicketSearch();
+const {
+  directionOptions,
+  selectedDirection,
+  updateDirectionFrom,
+  updateDirectionTo,
+  clearDirectionFrom,
+  clearDirectionTo,
+} = useTicketSearch();
 
 const directionOptionsFrom: ComputedRef<ControlOption[]> = computed(() =>
   directionOptions.map((option) => ({ ...option, disabled: option.value === selectedDirection.value.to })),
@@ -40,8 +47,16 @@ const directionOptionsTo: ComputedRef<ControlOption[]> = computed(() =>
 
 function swap() {
   const selectedDirectionCopy = { ...selectedDirection.value };
-  if (selectedDirectionCopy.to) updateDirectionFrom(selectedDirectionCopy.to);
-  if (selectedDirectionCopy.from) updateDirectionTo(selectedDirectionCopy.from);
+  if (selectedDirectionCopy.to) {
+    updateDirectionFrom(selectedDirectionCopy.to);
+  } else {
+    clearDirectionFrom();
+  }
+  if (selectedDirectionCopy.from) {
+    updateDirectionTo(selectedDirectionCopy.from);
+  } else {
+    clearDirectionTo();
+  }
 }
 </script>
 

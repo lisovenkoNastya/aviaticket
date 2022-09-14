@@ -14,8 +14,8 @@
               <TicketCard v-for="ticket in ticketsPaginated" :key="ticket.id" :ticket-data="ticket" class="mb2" />
               <PaginationButton
                 v-if="ticketsFiltered.length > ticketCount"
-                v-model="ticketCount"
-                :step="TICKET_COUNT_DEFAULT"
+                v-model:shown-items-count="ticketCount"
+                :items-per-page="TICKET_COUNT_DEFAULT"
                 class="block"
                 color="primary"
                 stretch

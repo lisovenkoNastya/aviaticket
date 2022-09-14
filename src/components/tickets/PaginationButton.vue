@@ -7,17 +7,17 @@ import { defineProps, defineEmits, toRefs } from 'vue';
 import AppButton from '@/components/ui/AppButton.vue';
 
 interface PaginationButtonProps {
-  modelValue: number;
-  step: number;
+  shownItemsCount: number;
+  itemsPerPage: number;
 }
 
 const props = defineProps<PaginationButtonProps>();
-const { modelValue, step } = toRefs(props);
+const { shownItemsCount, itemsPerPage } = toRefs(props);
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:shownItemsCount']);
 
 function updateValue() {
-  emit('update:modelValue', modelValue.value + step.value);
+  emit('update:shownItemsCount', shownItemsCount.value + itemsPerPage.value);
 }
 </script>
 

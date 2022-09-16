@@ -1,6 +1,6 @@
 import { ref, readonly, nextTick } from 'vue';
 
-import { Ticket } from '@/interfaces/Ticket';
+import { Ticket } from '@/models/ticket';
 import useTickets from '@/composables/useTickets';
 import useStopNumberFilter from '@/composables/useStopNumberFilter';
 import useCompanyFilter from '@/composables/useCompanyFilter';
@@ -28,7 +28,7 @@ const { sortingMode, updateSortingMode } = useTicketSorting();
 const ticketCount = ref(TICKET_COUNT_DEFAULT);
 
 const useTicketsParams = {
-  stopNumbers: stopNumberSelected,
+  stopNumber: stopNumberSelected,
   company: companySelected,
   direction: selectedDirection,
   dates: selectedDates,

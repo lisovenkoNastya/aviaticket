@@ -1,8 +1,9 @@
 import { ref, Ref, readonly, DeepReadonly, watch } from 'vue';
 import { ticketMachine, ticketMachineService } from '@/machines/ticketMachine';
-import { Ticket } from '@/interfaces/Ticket';
+import { Ticket } from '@/models/ticket';
 import { TicketSortingMode } from '@/interfaces/TicketSortingMode';
 import { TicketDirection, TicketDates } from '@/interfaces/TicketSearch';
+import { CompanyFilterValue, StopNumber } from '@/interfaces/TicketFilter';
 import { StateValue } from 'xstate';
 import ticketService from '@/services/ticketService';
 
@@ -18,8 +19,8 @@ ticketMachineService
 export interface UseTicketsParams {
   direction: DeepReadonly<Ref<TicketDirection>>;
   dates: DeepReadonly<Ref<TicketDates>>;
-  stopNumbers: DeepReadonly<Ref<number[]>>;
-  company: DeepReadonly<Ref<string>>;
+  stopNumber: DeepReadonly<Ref<StopNumber>>;
+  company: DeepReadonly<Ref<CompanyFilterValue>>;
   sorting: DeepReadonly<Ref<TicketSortingMode>>;
   count: DeepReadonly<Ref<number>>;
 }
@@ -27,7 +28,7 @@ export interface UseTicketsParams {
 const useTickets = ({
   direction,
   dates,
-  stopNumbers,
+  stopNumber,
   company,
   sorting,
   count,
@@ -56,10 +57,10 @@ const useTickets = ({
   );
 
   watch(
-    [stopNumbers, company, foundTickets],
+    [stopNumber, company, foundTickets],
     () => {
       const filterResult = ticketService.filterTickets(foundTickets.value, {
-        stopNumbers: [...stopNumbers.value],
+        stopNumber: [...stopNumber.value],
         company: company.value,
       });
       filteredTickets.value = [...filterResult];

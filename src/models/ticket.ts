@@ -1,11 +1,15 @@
 import { CityCode } from '@/interfaces/CityCode';
+import { TicketFilter } from '@/interfaces/TicketFilter';
+import { TicketSearch } from '@/interfaces/TicketSearch';
+import { CompanyId } from '@/models/company';
+import isSameDay from 'date-fns/isSameDay';
 
 export interface TicketRaw {
   id: string;
   // Цена в рублях
   price: number;
   // идентификатор компании которая осуществляет перевозку
-  companyId: string;
+  companyId: CompanyId;
   // Массив идентификаторов перелётов
   info: {
     // Код города откуда вылет
@@ -26,7 +30,7 @@ export interface TicketRaw {
 export interface Ticket {
   id: string;
   price: number;
-  companyId: string;
+  companyId: CompanyId;
   info: {
     origin: CityCode;
     destination: CityCode;
@@ -36,3 +40,21 @@ export interface Ticket {
     duration: number;
   };
 }
+
+export const isTicketValid = (
+  ticket: Ticket,
+  { dates = {}, direction = {}, stopNumber = [], company }: Partial<TicketSearch & TicketFilter>,
+): boolean => {
+  const { from, to } = direction;
+  const { there } = dates;
+  const { origin, destination, dateStart, stops } = ticket.info;
+  const { companyId } = ticket;
+
+  if (from && origin !== from) return false;
+  if (to && destination !== to) return false;
+  if (there && !isSameDay(dateStart, there)) return false;
+  if (stopNumber.length > 0 && !stopNumber.includes(stops.length)) return false;
+  if (company && company !== companyId) return false;
+
+  return true;
+};

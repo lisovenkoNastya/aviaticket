@@ -1,59 +1,36 @@
-import { Ticket, TicketRaw } from '@/interfaces/Ticket';
-import { CityCode } from '@/interfaces/CityCode';
-import { TicketDates, TicketDirection } from '@/interfaces/TicketSearch';
+import { Ticket, TicketRaw, isTicketValid } from '@/models/ticket';
+import { TicketSearch } from '@/interfaces/TicketSearch';
 import { ticketMachineService } from '@/machines/ticketMachine';
 import ticketApi from '@/api/ticketApi';
-import isSameDay from 'date-fns/isSameDay';
 import { TicketSortingMode } from '@/interfaces/TicketSortingMode';
+import { TicketFilter } from '@/interfaces/TicketFilter';
 
-const getSuitableTickets = (
-  tickets: Ticket[],
-  { dateThere, directionFrom, directionTo }: { dateThere?: Date; directionFrom?: CityCode; directionTo?: CityCode },
-): Ticket[] =>
-  tickets.filter((ticket) => {
-    const { origin, destination, dateStart } = ticket.info;
-    if (directionFrom && origin !== directionFrom) return false;
-    if (directionTo && destination !== directionTo) return false;
-    if (dateThere && !isSameDay(dateStart, dateThere)) return false;
-    return true;
-  });
-
-const findTickets = (
-  tickets: Ticket[],
-  { dates, direction }: { dates: TicketDates; direction: TicketDirection },
-): Ticket[] => {
+const findTickets = (tickets: Ticket[], { dates, direction }: TicketSearch): Ticket[] => {
   const ticketsThere =
     dates.there || direction.from || direction.to
-      ? getSuitableTickets(tickets, {
-          dateThere: dates.there,
-          directionFrom: direction.from,
-          directionTo: direction.to,
-        })
+      ? tickets.filter((ticket) => isTicketValid(ticket, { dates, direction }))
       : tickets;
   const ticketsBack =
     dates.back && direction.from && direction.to
-      ? getSuitableTickets(tickets, {
-          dateThere: dates.back,
-          directionFrom: direction.to,
-          directionTo: direction.from,
-        })
+      ? tickets.filter((ticket) =>
+          isTicketValid(ticket, {
+            dates: {
+              there: dates.back,
+              back: undefined,
+            },
+            direction: {
+              from: direction.to,
+              to: direction.from,
+            },
+          }),
+        )
       : [];
   const result = [...ticketsThere, ...ticketsBack];
   return result;
 };
 
-const filterTickets = (
-  tickets: Ticket[],
-  { stopNumbers, company }: { stopNumbers: number[]; company: string },
-): Ticket[] =>
-  tickets.filter((ticket) => {
-    const { companyId } = ticket;
-    const { stops } = ticket.info;
-    return (
-      (stopNumbers.length === 0 || stopNumbers.includes(stops.length)) &&
-      (!company || company === 'all' || companyId === company)
-    );
-  });
+const filterTickets = (tickets: Ticket[], { stopNumber, company }: TicketFilter): Ticket[] =>
+  tickets.filter((ticket) => isTicketValid(ticket, { stopNumber, company: company !== 'all' ? company : undefined }));
 
 const sortTicketsByPrice = (tickets: Ticket[]): Ticket[] =>
   tickets.sort((ticketA, ticketB) => ticketA.price - ticketB.price);
@@ -114,4 +91,4 @@ const loadTickets = async (): Promise<Ticket[]> => {
   }
 };
 
-export default { findTickets, filterTickets, sortTickets, loadTickets, getSuitableTickets, paginateTickets };
+export default { findTickets, filterTickets, sortTickets, loadTickets, paginateTickets };

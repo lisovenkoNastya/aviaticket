@@ -1,7 +1,7 @@
 import { ref, Ref, readonly, DeepReadonly } from 'vue';
 import { companyMachine, companyMachineService } from '@/machines/companyMachine';
 import companyApi from '@/api/companyApi';
-import { Company } from '@/interfaces/Company';
+import { Company, isCompanyValid, getCompanyLogo, CompanyId, CompanyLogo } from '@/models/company';
 import { StateValue } from 'xstate';
 
 const companies: Ref<Company[]> = ref([]);
@@ -17,7 +17,7 @@ const useCompanies = (): {
   companies: DeepReadonly<Ref<Company[]>>;
   loadCompanies: () => void;
   updateCompanies: (newCompanies: Company[]) => void;
-  getCompanyLogo: (companyId: string) => string;
+  getLogoByCompanyId: (companyId: CompanyId) => CompanyLogo;
   state: DeepReadonly<Ref<StateValue>>;
 } => {
   const updateCompanies = (newCompanies: Company[]) => {
@@ -41,9 +41,9 @@ const useCompanies = (): {
     }
   };
 
-  const getCompanyLogo = (companyId: string): string => {
-    const logoName = companies.value.find((company) => company.id === companyId)?.logo;
-    return logoName || '';
+  const getLogoByCompanyId = (companyId: CompanyId): CompanyLogo => {
+    const currentCompany = companies.value.find((company) => isCompanyValid(company, { id: companyId }));
+    return currentCompany ? getCompanyLogo(currentCompany) : '';
   };
 
   if (state.value === 'iddle') {
@@ -53,7 +53,7 @@ const useCompanies = (): {
     companies: readonly(companies),
     loadCompanies,
     updateCompanies,
-    getCompanyLogo,
+    getLogoByCompanyId,
     state: readonly(state),
   };
 };

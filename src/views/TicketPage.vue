@@ -56,7 +56,7 @@ const { sortingMode } = useTicketSorting();
 const ticketCount: Ref<number> = ref(TICKET_COUNT_DEFAULT);
 
 const { filteredTickets, paginatedTickets, state } = useTickets({
-  stopNumbers: stopNumberSelected,
+  stopNumber: stopNumberSelected,
   company: companySelected,
   direction: selectedDirection,
   dates: selectedDates,

@@ -1,6 +1,7 @@
 import ticketService from '@/services/ticketService';
 import { TicketDates, TicketDirection } from '@/interfaces/TicketSearch';
-import { Ticket } from '@/interfaces/Ticket';
+import { Ticket } from '@/models/ticket';
+import * as ticketModel from '@/models/ticket';
 import {
   MOCK_TICKETS,
   MOCK_TICKETS_MOW_ARH_108_908,
@@ -11,9 +12,13 @@ import {
 } from '@tests/unit/mocks/mockTickets';
 
 describe('filterTickets', () => {
-  const getSuitableTickets = jest.fn();
+  const mockIsTicketValid = jest.spyOn(ticketModel, 'isTicketValid');
+  afterEach(() => {
+    mockIsTicketValid.mockClear();
+  });
 
   test('Returns unchanged tickets if direction and dates are not defined', () => {
+    // const getSuitableTickets = jest.fn();
     const dates: TicketDates = {
       there: undefined,
       back: undefined,
@@ -23,7 +28,7 @@ describe('filterTickets', () => {
       to: undefined,
     };
     const foundTickets = ticketService.findTickets(MOCK_TICKETS as Ticket[], { dates, direction });
-    expect(getSuitableTickets).toHaveBeenCalledTimes(0);
+    expect(mockIsTicketValid).toHaveBeenCalledTimes(0);
     expect(foundTickets).toEqual(MOCK_TICKETS);
   });
 

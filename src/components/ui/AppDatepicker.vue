@@ -9,9 +9,15 @@
       input-format="d MMMM, EEEEEE"
       :model-value="modelValue"
       @update:model-value="updateValue"
-      :disabled="disabled"
+      :disabled="isDisabled"
+      v-bind="$attrs"
     />
     <span class="app-datepicker__icon mdi mdi-calendar-today"></span>
+    <span
+      v-if="isClearable && !!modelValue"
+      class="app-datepicker__close mdi mdi-close cursor-pointer"
+      @click="clearValue"
+    ></span>
   </AppInput>
 </template>
 
@@ -19,21 +25,26 @@
 import { defineProps, toRefs, defineEmits } from 'vue';
 import { ru } from 'date-fns/locale';
 import Datepicker from 'vue3-datepicker';
-import AppInput from './AppInput.vue';
+import AppInput from '@/components/ui/AppInput.vue';
 
 interface AppInputProps {
   name?: string;
   placeholder?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   modelValue?: Date;
+  isClearable?: boolean;
 }
 
 const props = defineProps<AppInputProps>();
-const { name, placeholder, modelValue, disabled } = toRefs(props);
+const { name, placeholder, modelValue, isDisabled, isClearable = false } = toRefs(props);
 const emit = defineEmits(['update:modelValue']);
 
 function updateValue(value: Date) {
   emit('update:modelValue', value);
+}
+
+function clearValue() {
+  emit('update:modelValue', undefined);
 }
 </script>
 
@@ -42,16 +53,19 @@ function updateValue(value: Date) {
   position: relative;
 
   &__icon {
-    font-size: 24px;
-    height: 24px;
-    line-height: 1;
     position: absolute;
     right: 15px;
-    top: 0;
-    bottom: 0;
-    margin-top: auto;
-    margin-bottom: auto;
+    top: 50%;
+    margin-top: -12px;
     color: $primary;
+  }
+
+  &__close {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    margin-top: -12px;
+    color: $grey;
   }
 
   & :deep(.app-datepicker__control) {

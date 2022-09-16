@@ -1,17 +1,21 @@
 <template>
   <div class="ticket-search-direction">
-    <AppTextfield
+    <AppSelect
       class="ticket-search-direction__input shadow-3"
-      :maxlength="3"
       placeholder="Откуда"
-      v-model="value.from"
-    ></AppTextfield>
-    <AppTextfield
+      :model-value="selectedDirection.from"
+      :options="directionOptionsFrom"
+      @update:model-value="updateDirectionFrom"
+      clearable
+    ></AppSelect>
+    <AppSelect
       class="ticket-search-direction__input shadow-3"
-      :maxlength="3"
       placeholder="Куда"
-      v-model="value.to"
-    ></AppTextfield>
+      :model-value="selectedDirection.to"
+      :options="directionOptionsTo"
+      @update:model-value="updateDirectionTo"
+      clearable
+    ></AppSelect>
     <AppButton class="ticket-search-direction__swap shadow-3" @click="swap">
       <span class="mdi mdi-swap-horizontal"></span>
     </AppButton>
@@ -19,19 +23,40 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import AppTextfield from '../ui/AppTextfield.vue';
-import AppButton from '../ui/AppButton.vue';
+import { computed, ComputedRef } from 'vue';
+import useTicketSearch from '@/composables/useTicketSearch';
+import { ControlOption } from '@/interfaces/ControlOption';
+import AppSelect from '@/components/ui/AppSelect.vue';
+import AppButton from '@/components/ui/AppButton.vue';
 
-const value = reactive({
-  from: undefined,
-  to: undefined,
-});
+const {
+  directionOptions,
+  selectedDirection,
+  updateDirectionFrom,
+  updateDirectionTo,
+  clearDirectionFrom,
+  clearDirectionTo,
+} = useTicketSearch();
+
+const directionOptionsFrom: ComputedRef<ControlOption[]> = computed(() =>
+  directionOptions.map((option) => ({ ...option, isDisabled: option.value === selectedDirection.value.to })),
+);
+const directionOptionsTo: ComputedRef<ControlOption[]> = computed(() =>
+  directionOptions.map((option) => ({ ...option, isDisabled: option.value === selectedDirection.value.from })),
+);
 
 function swap() {
-  const toSaved = value.to;
-  value.to = value.from;
-  value.from = toSaved;
+  const selectedDirectionCopy = { ...selectedDirection.value };
+  if (selectedDirectionCopy.to) {
+    updateDirectionFrom(selectedDirectionCopy.to);
+  } else {
+    clearDirectionFrom();
+  }
+  if (selectedDirectionCopy.from) {
+    updateDirectionTo(selectedDirectionCopy.from);
+  } else {
+    clearDirectionTo();
+  }
 }
 </script>
 

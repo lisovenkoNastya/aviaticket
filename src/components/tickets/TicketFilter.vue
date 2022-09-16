@@ -2,10 +2,7 @@
   <div class="ticket-filter">
     <TicketFilterCard class="mb2 shadow-3" :title="stopNumberParams.title">
       <AppList class="mxn2">
-        <AppListItem
-          v-for="(option, index) in stopNumberParams.options"
-          :key="index"
-        >
+        <AppListItem v-for="(option, index) in stopNumberParams.options" :key="index">
           <AppCheckbox
             class="block mxn2 px2 myn1 py1"
             :id="`${stopNumberParams.id}-${index}`"
@@ -20,10 +17,7 @@
     </TicketFilterCard>
     <TicketFilterCard class="mb2 shadow-3" :title="companyParams.title">
       <AppList class="mxn2">
-        <AppListItem
-          v-for="(option, index) in companyParams.options"
-          :key="index"
-        >
+        <AppListItem v-for="(option, index) in companyParams.options" :key="index">
           <AppRadio
             class="block mxn2 px2 myn1 py1"
             :id="`${companyParams.id}-${index}`"
@@ -43,14 +37,13 @@
 import useStopNumberFilter from '@/composables/useStopNumberFilter';
 import useCompanyFilter from '@/composables/useCompanyFilter';
 
-import TicketFilterCard from './TicketFilterCard.vue';
-import AppCheckbox from '../ui/AppCheckbox.vue';
-import AppRadio from '../ui/AppRadio.vue';
-import AppList from '../ui/AppList.vue';
-import AppListItem from '../ui/AppListItem.vue';
+import AppCheckbox from '@/components/ui/AppCheckbox.vue';
+import AppRadio from '@/components/ui/AppRadio.vue';
+import AppList from '@/components/ui/AppList.vue';
+import AppListItem from '@/components/ui/AppListItem.vue';
+import TicketFilterCard from '@/components/tickets/TicketFilterCard.vue';
 
-const { stopNumberParams, stopNumberSelected, updateStopNumber } =
-  useStopNumberFilter();
+const { stopNumberParams, stopNumberSelected, updateStopNumber } = useStopNumberFilter();
 const { companyParams, companySelected, updateCompany } = useCompanyFilter();
 </script>
 

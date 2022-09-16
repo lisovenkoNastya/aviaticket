@@ -3,49 +3,70 @@
     <TicketSearch></TicketSearch>
     <hr />
     <div class="clearfix mxn1">
-      <div class="md-col md-col-4 px1"><TicketFilter /></div>
-      <div class="md-col md-col-8 px1">
-        <AppButtonToggle class="mb2" stretch :options="ticketSortingOptions" v-model="ticketSorting"></AppButtonToggle>
-        <template v-if="state === 'loading'">loading...</template>
-        <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
-        <template v-if="state === 'empty'">
-          Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.
-        </template>
-        <template v-if="state === 'full'">
-          <TicketCard v-for="ticket in tickets.slice(0, 5)" :key="ticket.id" :ticket-data="ticket" class="mb2" />
-          <AppButton class="block" color="primary" stretch> Показать еще 5&nbsp;билетов </AppButton>
-        </template>
+      <div class="ticket-page__sidebar md-col md-col-4 px1"><TicketFilter /></div>
+      <div class="ticket-page__content md-col md-col-8 px1">
+        <TicketSorting class="mb2"></TicketSorting>
+        <div class="ticket-page__tickets">
+          <template v-if="state === 'loading'">loading...</template>
+          <template v-if="state === 'failure'"> Что-то пошло не так. Попробуйте перезагрузить страницу </template>
+          <template v-if="state === 'ready'">
+            <template v-if="filteredTickets.length > 0">
+              <TicketCard v-for="ticket in paginatedTickets" :key="ticket.id" :ticket-data="ticket" class="mb2" />
+              <PaginationButton
+                v-if="filteredTickets.length > ticketCount"
+                v-model:shown-items-count="ticketCount"
+                :items-per-page="TICKET_COUNT_DEFAULT"
+                class="block"
+                color="primary"
+                stretch
+              >
+                Показать еще 5&nbsp;билетов
+              </PaginationButton>
+            </template>
+            <template v-else>Мы не нашли подходящих билетов. Попробуйте изменить условия поиска.</template>
+          </template>
+        </div>
       </div>
     </div>
   </BaseLayout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Ref, ref, readonly, watch } from 'vue';
+
 import BaseLayout from '@/layouts/BaseLayout.vue';
-import AppButton from '@/components/ui/AppButton.vue';
-import AppButtonToggle from '@/components/ui/AppButtonToggle.vue';
 import TicketCard from '@/components/tickets/TicketCard.vue';
 import TicketFilter from '@/components/tickets/TicketFilter.vue';
 import TicketSearch from '@/components/tickets/TicketSearch.vue';
-import useTickets from '@/composables/useTickets';
+import TicketSorting from '@/components/tickets/TicketSorting.vue';
+import PaginationButton from '@/components/tickets/PaginationButton.vue';
 
-const { tickets, state } = useTickets();
-const ticketSortingOptions: Record<'text' | 'value', string | number>[] = [
-  {
-    text: 'Самый дешевый',
-    value: 'cheapest',
-  },
-  {
-    text: 'Самый быстрый',
-    value: 'fastest',
-  },
-  {
-    text: 'Оптимальный',
-    value: 'optimal',
-  },
-];
-const ticketSorting = ref('cheapest');
+import useTickets from '@/composables/useTickets';
+import useStopNumberFilter from '@/composables/useStopNumberFilter';
+import useCompanyFilter from '@/composables/useCompanyFilter';
+import useTicketSearch from '@/composables/useTicketSearch';
+import useTicketSorting from '@/composables/useTicketSorting';
+
+const TICKET_COUNT_DEFAULT = 5;
+
+const { stopNumberSelected } = useStopNumberFilter();
+const { companySelected } = useCompanyFilter();
+const { selectedDirection, selectedDates } = useTicketSearch();
+const { sortingMode } = useTicketSorting();
+const ticketCount: Ref<number> = ref(TICKET_COUNT_DEFAULT);
+
+const { filteredTickets, paginatedTickets, state } = useTickets({
+  stopNumber: stopNumberSelected,
+  company: companySelected,
+  direction: selectedDirection,
+  dates: selectedDates,
+  sorting: sortingMode,
+  count: readonly(ticketCount),
+});
+
+watch([stopNumberSelected, companySelected, selectedDirection, selectedDates, sortingMode], () => {
+  ticketCount.value = TICKET_COUNT_DEFAULT;
+});
 </script>
 
 <style lang="scss" scoped>

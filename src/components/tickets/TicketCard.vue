@@ -31,24 +31,24 @@
 
 <script setup lang="ts">
 import { defineProps, toRefs, computed, DeepReadonly } from 'vue';
-import { Ticket } from '@/interfaces/Ticket';
+import { Ticket } from '@/models/ticket';
 import AppSheet from '@/components/ui/AppSheet.vue';
 import useComapanies from '@/composables/useCompanies';
 import vFormatNumber from '@/directives/vFormatNumber';
-import { msToString, timestampToString } from '@/utilities/dateTimeUtils';
+import { msToString, dateToString } from '@/utilities/dateTimeUtils';
 
 interface TicketCardProps {
   ticketData: DeepReadonly<Ticket>;
 }
 const props = defineProps<TicketCardProps>();
 const { ticketData } = toRefs(props);
-const { getCompanyLogo } = useComapanies();
+const { getLogoByCompanyId } = useComapanies();
 
-const currentCompanyLogo = computed(() => getCompanyLogo(ticketData.value.companyId));
+const currentCompanyLogo = computed(() => getLogoByCompanyId(ticketData.value.companyId));
 const durationString = computed(() => msToString(ticketData.value.info.duration));
 
 const timeStartEnd = computed(
-  () => `${timestampToString(ticketData.value.info.dateStart)} – ${timestampToString(ticketData.value.info.dateEnd)}`,
+  () => `${dateToString(ticketData.value.info.dateStart)} – ${dateToString(ticketData.value.info.dateEnd)}`,
 );
 </script>
 
